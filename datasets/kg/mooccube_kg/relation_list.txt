@@ -1,0 +1,9 @@
+org_id remap_id
+course-concept 0
+course-video 1
+concept-field 2
+concept-paper 3
+video-concept 4
+school-teacher 5
+school-course 6
+teacher-course 7

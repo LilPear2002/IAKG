@@ -1,0 +1,45 @@
+optimizer:
+  name: adam
+  lr: 1.0e-3
+  weight_decay: 0
+
+train:
+  epoch: 500
+  batch_size: 1024 
+  save_model: false
+  loss: pairwise
+  test_step: 1
+  patience: 10
+  reproducible: true
+  seed: 2025
+
+test:
+  metrics: [recall, ndcg, hr]
+  k: [5, 10, 20]
+  batch_size: 1024  
+  eval_at_one_forward: true
+
+data:
+  type: kg
+  name: mooc
+
+model:
+  name: iacd
+  embedding_size: 64
+  layer_num: 2
+  kg_layer_num: 2
+  
+  reg_weight: 1.0e-4
+  cl_weight: 0.01
+  distill_weight: 0.1 
+  teacher_weight: 0.1  
+  
+  temperature: 0.2
+
+tune:
+  enable: false
+  hyperparameters: [layer_num, kg_layer_num, cl_weight, adv_weight]
+  layer_num: [1, 2, 3]
+  kg_layer_num: [1, 2, 3]
+  cl_weight: [0.01, 0.1, 1.0]
+  adv_weight: [0.01, 0.1, 1.0]

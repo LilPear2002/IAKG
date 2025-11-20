@@ -1,0 +1,15 @@
+numpy==1.26.4
+scipy==1.11.4
+torch==2.0.1
+dgl==1.1.2
+torch-scatter
+torch-sparse
+torch-geometric
+faiss-cpu
+PyYAML
+tensorboard
+torchdata==0.6.1
+pandas
+pydantic
+scikit-learn
+tqdm
