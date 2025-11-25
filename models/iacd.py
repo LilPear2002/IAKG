@@ -21,7 +21,6 @@ class CollaborativeDenoiser(nn.Module):
 
         self.embedding_size = embedding_size
 
-        # Student Network: learns to predict edge importance
         self.student_network = nn.Sequential(
             nn.Linear(embedding_size * 4, hidden_size),
             nn.ReLU(),
@@ -29,7 +28,6 @@ class CollaborativeDenoiser(nn.Module):
             nn.Sigmoid()
         )
 
-        # Teacher Network: provides soft labels based on user intent and interactions
         self.teacher_network = nn.Sequential(
             nn.Linear(embedding_size * 4, hidden_size),
             nn.ReLU(),
@@ -38,62 +36,40 @@ class CollaborativeDenoiser(nn.Module):
         )
 
     def forward(self, head_emb, rel_emb, tail_emb, user_intent_emb):
-        """
-        Full Chunking Implementation to prevent OOM
-        """
-        # Handle different input dimensions
         if user_intent_emb.dim() == 1:
-            user_intent_emb = user_intent_emb.unsqueeze(0)  # [1, emb_size]
+            user_intent_emb = user_intent_emb.unsqueeze(0)
 
         n_edges = head_emb.shape[0]
-
-        # Step 1: Compute edge semantic representation (Global is fine, low memory)
-        edge_semantic = (head_emb + rel_emb + tail_emb) / 3.0  # [n_edges, emb_size]
-
-        # [Optimization] Chunk Size (Adjust based on GPU memory)
-        # 20000 is a safe number for 24G VRAM with AMP
-        chunk_size = 100000
-
+        edge_semantic = (head_emb + rel_emb + tail_emb) / 3.0
+        
+        chunk_size = 100000 
         student_score_list = []
         teacher_score_list = []
 
-        # Step 2: Loop through chunks
         for i in range(0, n_edges, chunk_size):
-            # Slicing data for current chunk
             semantic_chunk = edge_semantic[i: i + chunk_size]
             head_chunk = head_emb[i: i + chunk_size]
             rel_chunk = rel_emb[i: i + chunk_size]
             tail_chunk = tail_emb[i: i + chunk_size]
 
-            # === Batch-Aware Attention (Chunked) ===
-            # similarity: [chunk_size, batch_size]
             similarity = torch.matmul(semantic_chunk, user_intent_emb.T)
             similarity = similarity / torch.sqrt(
                 torch.tensor(self.embedding_size, dtype=torch.float32, device=similarity.device))
 
-            # Gating mechanism
             gate_weights = torch.sigmoid(similarity)
-
-            # Normalize
             gate_sum = gate_weights.sum(dim=-1, keepdim=True) + 1e-8
             attn_weights = gate_weights / gate_sum
 
-            # Aggregate Context: [chunk_size, emb_size]
             chunk_context = torch.matmul(attn_weights, user_intent_emb)
 
-            # === Construct Edge Repr (Chunked) ===
-            # [chunk_size, 4 * emb_size]
             edge_repr_chunk = torch.cat([head_chunk, rel_chunk, tail_chunk, chunk_context], dim=-1)
 
-            # === Network Forward (Chunked) ===
-            # Move MLP calculation inside loop to save memory
             s_score = self.student_network(edge_repr_chunk).squeeze(-1)
             t_score = self.teacher_network(edge_repr_chunk).squeeze(-1)
 
             student_score_list.append(s_score)
             teacher_score_list.append(t_score)
 
-        # Step 3: Concatenate results
         student_score = torch.cat(student_score_list, dim=0)
         teacher_score = torch.cat(teacher_score_list, dim=0)
 
@@ -108,14 +84,12 @@ class RGAT(nn.Module):
         self.embedding_size = embedding_size
         self.mess_dropout_rate = mess_dropout_rate
 
-        # Learnable attention parameters
         self.W = nn.Parameter(torch.empty(size=(embedding_size, embedding_size)))
         nn.init.xavier_uniform_(self.W.data, gain=1.414)
 
         self.a = nn.Parameter(torch.empty(size=(2 * embedding_size, 1)))
         nn.init.xavier_uniform_(self.a.data, gain=1.414)
 
-        # Relation-aware fusion layer
         self.fc = nn.Linear(2 * embedding_size, embedding_size)
 
         self.leakyrelu = nn.LeakyReLU(0.2)
@@ -128,23 +102,14 @@ class RGAT(nn.Module):
         tail_emb = entity_emb[tail]
         rel_emb = relation_emb[edge_type]
 
-        # Concatenate head and tail embeddings
         a_input = torch.cat([head_emb, tail_emb], dim=-1)
-
-        # Relation-aware attention: multiply with relation embedding
         e_input = torch.multiply(self.fc(a_input), rel_emb).sum(-1)
-
-        # Apply leaky relu
         attn_score = self.leakyrelu(e_input)
-
-        # Softmax normalization per head node
         attn_score = scatter_softmax(attn_score, head, dim=0, dim_size=entity_emb.shape[0])
 
-        # Apply edge weight from collaborative denoiser if provided
         if edge_weight is not None:
             attn_score = attn_score * edge_weight.view(-1)
 
-        # Aggregate neighbor embeddings
         agg_emb = tail_emb * attn_score.view(-1, 1)
         agg_emb = scatter_sum(agg_emb, head, dim=0, dim_size=entity_emb.shape[0])
 
@@ -156,14 +121,10 @@ class RGAT(nn.Module):
         for _ in range(self.n_layers):
             entity_emb = self.aggregate(entity_emb, relation_emb, edge_index, edge_type, edge_weight)
 
-            # Apply dropout during training (Message/Node Dropout)
             if mess_dropout and self.training:
                 entity_emb = self.dropout(entity_emb)
 
-            # Normalize embeddings
             entity_emb = F.normalize(entity_emb)
-
-            # Residual connection
             entity_res_emb = entity_res_emb + entity_emb
 
         return entity_res_emb
@@ -184,6 +145,7 @@ class IACD(BaseModel):
         self.embedding_size = configs['model']['embedding_size']
         self.layer_num = configs['model']['layer_num']
         self.kg_layer_num = configs['model']['kg_layer_num']
+        self.intent_size = configs['model'].get('intent_size', 64)
 
         self.reg_weight = configs['model']['reg_weight']
         self.cl_weight = configs['model']['cl_weight']
@@ -205,18 +167,19 @@ class IACD(BaseModel):
         self.entity_embed = nn.Parameter(torch.empty(self.n_entities, self.embedding_size))
         self.relation_embed = nn.Parameter(torch.empty(self.n_relations, self.embedding_size))
 
+        self.user_intent = nn.Parameter(torch.empty(self.embedding_size, self.intent_size))
+
         nn.init.xavier_uniform_(self.user_embed)
         nn.init.xavier_uniform_(self.entity_embed)
         nn.init.xavier_uniform_(self.relation_embed)
+        nn.init.xavier_uniform_(self.user_intent)
 
         self.collaborative_denoiser = CollaborativeDenoiser(self.embedding_size)
         self.kg_gnn = RGAT(self.embedding_size, self.kg_layer_num, mess_dropout_rate=0.1)
 
         self.item_to_edges = self._build_item_to_edges_mapping()
 
-        self.logger.info(f"IACD initialized: emb_size={self.embedding_size}, "
-                         f"layer_num={self.layer_num}, kg_layer_num={self.kg_layer_num}, "
-                         f"distill_weight={self.distill_weight}, teacher_weight={self.teacher_weight}")
+        self.logger.info(f"IACD initialized with BIGCF Intent Logic")
 
     def _build_item_to_edges_mapping(self):
         item_to_edges = {}
@@ -284,12 +247,8 @@ class IACD(BaseModel):
     def _lightgcn_propagate(self, graph, embeds):
         return torch.spmm(graph, embeds)
 
-    def lightgcn_forward(self, graph, kg_emb=None):
-        if kg_emb is not None:
-            item_init_emb = self.entity_embed[:self.n_items] + kg_emb[:self.n_items]
-        else:
-            item_init_emb = self.entity_embed[:self.n_items]
-
+    def lightgcn_forward(self, graph):
+        item_init_emb = self.entity_embed[:self.n_items]
         all_emb = torch.cat([self.user_embed, item_init_emb], dim=0)
         emb_list = [all_emb]
 
@@ -298,9 +257,9 @@ class IACD(BaseModel):
             emb_list.append(all_emb)
 
         all_emb = torch.stack(emb_list, dim=1).mean(dim=1)
-        user_emb, item_emb = torch.split(all_emb, [self.n_users, self.n_items])
+        user_struc_emb, item_struc_emb = torch.split(all_emb, [self.n_users, self.n_items])
 
-        return user_emb, item_emb
+        return user_struc_emb, item_struc_emb
 
     def contrastive_loss(self, view1_emb, view2_emb, nodes):
         view1_emb = F.normalize(view1_emb, dim=-1)
@@ -347,7 +306,6 @@ class IACD(BaseModel):
     def distillation_loss(self, student_score, teacher_score, pos_items, neg_items):
         edge_labels, pos_mask, neg_mask = self.get_edge_labels(pos_items, neg_items)
 
-        # Teacher Loss
         if pos_mask.sum() > 0 and neg_mask.sum() > 0:
             teacher_loss = F.binary_cross_entropy(
                 teacher_score[pos_mask | neg_mask],
@@ -356,10 +314,8 @@ class IACD(BaseModel):
         else:
             teacher_loss = torch.tensor(0.0).to(student_score.device)
 
-        # Student Loss Part 1: MSE (Distill)
         student_loss_distill = F.mse_loss(student_score, teacher_score.detach())
 
-        # Student Loss Part 2: Alignment
         if (pos_mask | neg_mask).sum() > 0:
             student_loss_align = F.binary_cross_entropy(
                 student_score[pos_mask | neg_mask],
@@ -372,15 +328,25 @@ class IACD(BaseModel):
         return student_loss, teacher_loss
 
     def forward(self, users_batch):
-        user_intent_emb = self.user_embed[users_batch].detach()
+        user_struc_emb_all, item_struc_emb_all = self.lightgcn_forward(self.ui_graph)
+        
+        user_struc_batch = user_struc_emb_all[users_batch]
+        
+        user_intent_attn = torch.softmax(user_struc_batch @ self.user_intent, dim=1)
+        user_individual_intent = user_intent_attn @ self.user_intent.T
+        
+        if self.training:
+            noise = torch.randn_like(user_struc_batch)
+            final_user_emb = user_struc_batch + user_individual_intent * noise
+        else:
+            final_user_emb = user_struc_batch
 
         head_emb = self.entity_embed[self.edge_index[0]].detach()
         tail_emb = self.entity_embed[self.edge_index[1]].detach()
         rel_emb = self.relation_embed[self.edge_type].detach()
 
-        # Collaborative denoising (Chunked internal)
         student_score, teacher_score = self.collaborative_denoiser(
-            head_emb, rel_emb, tail_emb, user_intent_emb
+            head_emb, rel_emb, tail_emb, user_individual_intent
         )
 
         kg_emb_main = self.kg_gnn(
@@ -412,37 +378,32 @@ class IACD(BaseModel):
             mess_dropout=True
         )
 
-        # Recommendation Task
-        user_emb_cf, item_emb_cf = self.lightgcn_forward(self.ui_graph, kg_emb=kg_emb_main)
-
-        item_emb = item_emb_cf
-
-        return user_emb_cf, item_emb, kg_emb_view1, kg_emb_view2, student_score, teacher_score
+        item_kg_emb = kg_emb_main[:self.n_items]
+        final_item_emb_all = item_struc_emb_all + item_kg_emb
+        
+        return final_user_emb, final_item_emb_all, kg_emb_view1, kg_emb_view2, student_score, teacher_score
 
     def cal_loss(self, batch_data):
         users, pos_items, neg_items = batch_data
 
-        user_emb, item_emb, kg_emb_view1, kg_emb_view2, student_score, teacher_score = self.forward(users)
+        final_user_emb, final_item_emb_all, kg_emb_view1, kg_emb_view2, student_score, teacher_score = self.forward(users)
 
-        user_emb_batch = user_emb[users]
-        pos_item_emb = item_emb[pos_items]
-        neg_item_emb = item_emb[neg_items]
+        user_emb_batch = final_user_emb
+        pos_item_emb = final_item_emb_all[pos_items]
+        neg_item_emb = final_item_emb_all[neg_items]
 
-        # 1. BPR Loss
         bpr_loss = cal_bpr_loss(user_emb_batch, pos_item_emb, neg_item_emb) / user_emb_batch.shape[0]
 
-        # 2. Contrastive Loss
         cl_nodes = torch.cat([pos_items, neg_items], dim=0)
         cl_loss = self.contrastive_loss(kg_emb_view1, kg_emb_view2, cl_nodes)
 
-        # 3. Distillation Loss
         student_loss, teacher_loss = self.distillation_loss(
             student_score, teacher_score, pos_items, neg_items)
 
-        # 4. Regularization Loss
         reg_loss = reg_pick_embeds([self.user_embed[users],
                                     self.entity_embed[pos_items],
-                                    self.entity_embed[neg_items]]) / user_emb_batch.shape[0]
+                                    self.entity_embed[neg_items],
+                                    self.user_intent]) / user_emb_batch.shape[0]
         reg_loss = self.reg_weight * reg_loss
 
         total_loss = bpr_loss + \
@@ -462,40 +423,21 @@ class IACD(BaseModel):
         return total_loss, loss_dict
 
     def generate(self):
-        """Generate embeddings for evaluation (using Global User Intent)"""
-        head_emb = self.entity_embed[self.edge_index[0]].detach()
-        tail_emb = self.entity_embed[self.edge_index[1]].detach()
-        rel_emb = self.relation_embed[self.edge_type].detach()
-
-        # [Optimization] Use Global Mean for Inference
-        global_user_intent = self.user_embed.mean(dim=0, keepdim=True).detach()
-
-        with torch.no_grad():
-            student_score, _ = self.collaborative_denoiser(
-                head_emb, rel_emb, tail_emb, global_user_intent
-            )
-
-            kg_emb = self.kg_gnn(
-                self.entity_embed,
-                self.relation_embed,
-                self.edge_index,
-                self.edge_type,
-                edge_weight=student_score,
-                mess_dropout=False
-            )
-
-        user_emb_cf, item_emb_cf = self.lightgcn_forward(self.ui_graph, kg_emb=kg_emb)
-
-        return user_emb_cf, item_emb_cf
+        return self.full_predict_eval()
 
     def rating(self, u_emb, i_emb):
         return torch.matmul(u_emb, i_emb.t())
 
     def full_predict(self, batch_data):
         users, train_mask = batch_data
-
-        # [Optimization] Use Global Mean for Inference Consistency
-        global_user_intent = self.user_embed.mean(dim=0, keepdim=True).detach()
+        
+        user_struc_emb_all, item_struc_emb_all = self.lightgcn_forward(self.ui_graph)
+        
+        user_struc_batch = user_struc_emb_all[users]
+        final_user_emb = user_struc_batch
+        
+        user_intent_attn = torch.softmax(user_struc_emb_all.mean(0, keepdim=True) @ self.user_intent, dim=1)
+        global_user_intent = user_intent_attn @ self.user_intent.T
 
         head_emb = self.entity_embed[self.edge_index[0]]
         tail_emb = self.entity_embed[self.edge_index[1]]
@@ -515,12 +457,38 @@ class IACD(BaseModel):
                 mess_dropout=False
             )
 
-        user_emb_cf, item_emb_cf = self.lightgcn_forward(self.ui_graph, kg_emb=kg_emb)
+        final_item_emb = item_struc_emb_all + kg_emb[:self.n_items]
 
-        user_emb_batch = user_emb_cf[users]
-
-        full_preds = user_emb_batch @ item_emb_cf.T
+        full_preds = final_user_emb @ final_item_emb.T
 
         full_preds = self._mask_predict(full_preds, train_mask)
 
         return full_preds
+
+    def full_predict_eval(self):
+        user_struc_emb_all, item_struc_emb_all = self.lightgcn_forward(self.ui_graph)
+        final_user_emb = user_struc_emb_all
+        
+        user_intent_attn = torch.softmax(user_struc_emb_all.mean(0, keepdim=True) @ self.user_intent, dim=1)
+        global_user_intent = user_intent_attn @ self.user_intent.T
+        
+        head_emb = self.entity_embed[self.edge_index[0]]
+        tail_emb = self.entity_embed[self.edge_index[1]]
+        rel_emb = self.relation_embed[self.edge_type]
+
+        with torch.no_grad():
+            student_score, _ = self.collaborative_denoiser(
+                head_emb, rel_emb, tail_emb, global_user_intent
+            )
+
+            kg_emb = self.kg_gnn(
+                self.entity_embed,
+                self.relation_embed,
+                self.edge_index,
+                self.edge_type,
+                edge_weight=student_score,
+                mess_dropout=False
+            )
+            
+        final_item_emb = item_struc_emb_all + kg_emb[:self.n_items]
+        return final_user_emb, final_item_emb
