@@ -178,13 +178,3 @@ class Trainer(object):
             save_path = '{}/{}-{}-{}.pth'.format(save_dir_path, model_name, data_name, timestamp)
             torch.save(model_state_dict, save_path)
             self.logger.log("Save model parameters to {}".format(save_path))
-
-    def load_model(self, model):
-        """Load model from checkpoint"""
-        if 'pretrain_path' in configs['train']:
-            pretrain_path = configs['train']['pretrain_path']
-            model.load_state_dict(torch.load(pretrain_path))
-            self.logger.log("Load model parameters from {}".format(pretrain_path))
-            return model
-        else:
-            raise KeyError("No pretrain_path in configs['train']")

@@ -1,15 +1,10 @@
+# Core dependencies
 numpy==1.26.4
 scipy==1.11.4
 torch==2.0.1
-dgl==1.1.2
-torch-scatter
-torch-sparse
-torch-geometric
-faiss-cpu
-PyYAML
-tensorboard
-torchdata==0.6.1
-pandas
-pydantic
-scikit-learn
-tqdm
+PyYAML==6.0.1
+tqdm==4.66.1
+
+# Graph operations (install version matching your PyTorch and CUDA)
+# See: https://pytorch-geometric.readthedocs.io/en/latest/install/installation.html
+torch-scatter>=2.1.0

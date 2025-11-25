@@ -1,13 +1,16 @@
+"""
+Data handler for knowledge graph-enhanced recommendation
+"""
+
 import torch
 import torch.utils.data as data
-from scipy.sparse import csr_matrix, coo_matrix
 import numpy as np
 import scipy.sparse as sp
 from config.configurator import configs
 from os import path
 from collections import defaultdict
 from tqdm import tqdm
-from .datasets_kg import KGTrainDataset, KGTestDataset, generate_kg_batch
+from .datasets_kg import KGTrainDataset, KGTestDataset
 
 
 class DataHandlerKG:
@@ -134,12 +137,4 @@ class DataHandlerKG:
             batch_size=configs['train']['batch_size'], 
             shuffle=True, 
             num_workers=0
-        )
-    
-    def generate_kg_batch(self):
-        """Generate a batch of KG triplets for training"""
-        return generate_kg_batch(
-            self.kg_dict, 
-            configs['train']['kg_batch_size'], 
-            configs['data']['entity_num']
         )

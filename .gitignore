@@ -32,25 +32,26 @@ env/
 *.swp
 *.swo
 *~
+.DS_Store
 
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# Model checkpoints
-checkpoint/*.pth
-checkpoint/**/*.pth
+# PyTorch
+*.pth
+*.pt
 
 # Logs
-log/*.log
-log/**/*.log
-log/**/*.txt
+log/
+*.log
 
-# Tensorboard
-runs/
+# Checkpoints
+checkpoint/
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Data (optional, uncomment if you don't want to track data)
+# Data (optional - uncomment if you don't want to track data)
 # datasets/
+
+# Temporary files
+*.tmp
+*.bak
+*.cache
