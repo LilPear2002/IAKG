@@ -12,13 +12,7 @@ IACD addresses the challenge of noisy knowledge graph edges in recommendation sy
 
 ## 📝 Environment
 
-You can run the following command to download the codes faster:
-
-```
-git clone https://github.com/LilPear2002/IACD.git
-```
-
-Then run the following commands to create a conda environment:
+You can run the following commands to create a conda environment:
 
 ```
 conda create -n iacd python=3.10 -y
