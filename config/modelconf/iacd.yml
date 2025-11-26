@@ -42,7 +42,7 @@ model:
   kg_layer_num: 2        # Number of RGAT layers for knowledge graph
   
   # Intent learning
-  intent_size: 16        # Number of user intent prototypes
+  intent_size: 4        # Number of user intent prototypes
   
   # Loss weights
   reg_weight: 1.0e-4     # L2 regularization weight
