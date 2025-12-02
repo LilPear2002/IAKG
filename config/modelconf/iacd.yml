@@ -9,7 +9,7 @@ optimizer:
 
 # Training settings
 train:
-  epoch: 500               # Maximum number of training epochs
+  epoch: 100               # Maximum number of training epochs
   batch_size: 1024         # Training batch size (users per batch)
   save_model: false        # Whether to save model checkpoints
   loss: pairwise           # Loss type: pairwise (BPR)
@@ -47,7 +47,7 @@ model:
   # Loss weights
   reg_weight: 1.0e-4     # L2 regularization weight
   cl_weight: 0.01        # Contrastive learning loss weight
-  distill_weight: 0.1    # Student distillation loss weight
+  student_weight: 0.1    # Student distillation loss weight
   teacher_weight: 0.1    # Teacher supervision loss weight
   
   # Temperature

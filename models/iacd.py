@@ -22,7 +22,7 @@ class CollaborativeDenoiser(nn.Module):
 
         # Student network learns edge weights from user intent
         self.student_network = nn.Sequential(
-            nn.Linear(embedding_size * 4, hidden_size),
+            nn.Linear(embedding_size, hidden_size),
             nn.ReLU(),
             nn.Linear(hidden_size, 1),
             nn.Sigmoid()
@@ -30,7 +30,7 @@ class CollaborativeDenoiser(nn.Module):
 
         # Teacher network provides supervision signals
         self.teacher_network = nn.Sequential(
-            nn.Linear(embedding_size * 4, hidden_size),
+            nn.Linear(embedding_size, hidden_size),
             nn.ReLU(),
             nn.Linear(hidden_size, 1),
             nn.Sigmoid()
@@ -50,9 +50,9 @@ class CollaborativeDenoiser(nn.Module):
 
         for i in range(0, n_edges, chunk_size):
             semantic_chunk = edge_semantic[i: i + chunk_size]
-            head_chunk = head_emb[i: i + chunk_size]
-            rel_chunk = rel_emb[i: i + chunk_size]
-            tail_chunk = tail_emb[i: i + chunk_size]
+            # head_chunk = head_emb[i: i + chunk_size]
+            # rel_chunk = rel_emb[i: i + chunk_size]
+            # tail_chunk = tail_emb[i: i + chunk_size]
 
             # Compute intent-aware attention
             similarity = torch.matmul(semantic_chunk, user_intent_emb.T)
@@ -66,7 +66,8 @@ class CollaborativeDenoiser(nn.Module):
             chunk_context = torch.matmul(attn_weights, user_intent_emb)
 
             # Concatenate edge features with intent context
-            edge_repr_chunk = torch.cat([head_chunk, rel_chunk, tail_chunk, chunk_context], dim=-1)
+            # edge_repr_chunk = torch.cat([head_chunk, rel_chunk, tail_chunk, chunk_context], dim=-1)
+            edge_repr_chunk = chunk_context
 
             s_score = self.student_network(edge_repr_chunk).squeeze(-1)
             t_score = self.teacher_network(edge_repr_chunk).squeeze(-1)
@@ -157,7 +158,7 @@ class IACD(nn.Module):
 
         self.reg_weight = configs['model']['reg_weight']
         self.cl_weight = configs['model']['cl_weight']
-        self.distill_weight = configs['model']['distill_weight']
+        self.student_weight = configs['model']['student_weight']
         self.teacher_weight = configs['model']['teacher_weight']
 
         self.temperature = configs['model']['temperature']
@@ -321,27 +322,36 @@ class IACD(nn.Module):
 
         return edge_labels, pos_item_mask, neg_item_mask
 
-    def distillation_loss(self, student_score, teacher_score, pos_items, neg_items):
-        """Collaborative knowledge distillation loss"""
+    def distillation_loss(self, student_score, teacher_score, pos_items, neg_items, head_emb, rel_emb, tail_emb, user_intent_batch):
+
         edge_labels, pos_mask, neg_mask = self.get_edge_labels(pos_items, neg_items)
 
-        # Teacher loss: supervised by positive/negative items
-        if pos_mask.sum() > 0 and neg_mask.sum() > 0:
-            teacher_loss = F.binary_cross_entropy(
-                teacher_score[pos_mask | neg_mask],
-                edge_labels[pos_mask | neg_mask]
-            )
-        else:
-            teacher_loss = torch.tensor(0.0).to(student_score.device)
+        edge_semantic = (head_emb + rel_emb + tail_emb) / 3.0
 
-        # Student loss: distillation from teacher
+        batch_avg_intent = user_intent_batch.mean(dim=0)
+        
+        semantic_logits = torch.matmul(edge_semantic, batch_avg_intent)
+        
+        semantic_logits = semantic_logits / torch.sqrt(torch.tensor(self.embedding_size).float())
+        soft_labels = torch.sigmoid(semantic_logits)
+
+        targets = soft_labels.detach()
+
+        if pos_mask.sum() > 0:
+            targets[pos_mask] = 1.0
+
+        if neg_mask.sum() > 0:
+            targets[neg_mask] = 0.0
+
+        teacher_loss = F.binary_cross_entropy(teacher_score, targets)
+
         student_loss_distill = F.mse_loss(student_score, teacher_score.detach())
 
-        # Student loss: alignment with labels
-        if (pos_mask | neg_mask).sum() > 0:
+        valid_mask = pos_mask | neg_mask
+        if valid_mask.sum() > 0:
             student_loss_align = F.binary_cross_entropy(
-                student_score[pos_mask | neg_mask],
-                edge_labels[pos_mask | neg_mask]
+                student_score[valid_mask],
+                edge_labels[valid_mask]
             )
             student_loss = student_loss_distill + 0.5 * student_loss_align
         else:
@@ -411,12 +421,12 @@ class IACD(nn.Module):
         item_kg_emb = kg_emb_main[:self.n_items]
         final_item_emb_all = item_struc_emb_all + item_kg_emb
         
-        return final_user_emb, final_item_emb_all, kg_emb_view1, kg_emb_view2, student_score, teacher_score
+        return final_user_emb, final_item_emb_all, kg_emb_view1, kg_emb_view2, student_score, teacher_score, user_individual_intent
 
     def cal_loss(self, batch_data):
         users, pos_items, neg_items = batch_data
 
-        final_user_emb, final_item_emb_all, kg_emb_view1, kg_emb_view2, student_score, teacher_score = self.forward(users)
+        final_user_emb, final_item_emb_all, kg_emb_view1, kg_emb_view2, student_score, teacher_score, user_individual_intent = self.forward(users)
 
         user_emb_batch = final_user_emb
         pos_item_emb = final_item_emb_all[pos_items]
@@ -429,11 +439,21 @@ class IACD(nn.Module):
         cl_nodes = torch.cat([pos_items, neg_items], dim=0)
         cl_loss = self.contrastive_loss(kg_emb_view1, kg_emb_view2, cl_nodes)
 
-        # Distillation loss
-        student_loss, teacher_loss = self.distillation_loss(
-            student_score, teacher_score, pos_items, neg_items)
+        head_emb = self.entity_embed[self.edge_index[0]].detach()
+        tail_emb = self.entity_embed[self.edge_index[1]].detach()
+        rel_emb = self.relation_embed[self.edge_type].detach()
 
-        # Regularization loss
+        student_loss, teacher_loss = self.distillation_loss(
+            student_score, 
+            teacher_score, 
+            pos_items, 
+            neg_items,
+            head_emb, 
+            rel_emb, 
+            tail_emb, 
+            user_individual_intent 
+        )
+
         reg_loss = reg_pick_embeds([self.user_embed[users],
                                     self.entity_embed[pos_items],
                                     self.entity_embed[neg_items],
@@ -443,7 +463,7 @@ class IACD(nn.Module):
         # Total loss
         total_loss = bpr_loss + \
                      self.cl_weight * cl_loss + \
-                     self.distill_weight * student_loss + \
+                     self.student_weight * student_loss + \
                      self.teacher_weight * teacher_loss + \
                      reg_loss
 

@@ -1,0 +1,139 @@
+2025-11-25 21:13:53,020 - {'optimizer': {'name': 'adam', 'lr': 0.001, 'weight_decay': 0}, 'train': {'epoch': 500, 'batch_size': 1024, 'save_model': False, 'loss': 'pairwise', 'test_step': 1, 'patience': 10, 'reproducible': True, 'seed': 2025, 'log_loss': True, 'early_stop': True}, 'test': {'metrics': ['recall', 'ndcg', 'hr'], 'k': [5, 10, 20], 'batch_size': 1024, 'eval_at_one_forward': True}, 'data': {'type': 'kg', 'name': 'mooc', 'dir': './datasets/kg/mooccube_kg/', 'user_num': 34917, 'item_num': 698, 'entity_num': 239440, 'node_num': 274357, 'relation_num': 17, 'triplet_num': 1478658}, 'model': {'name': 'iacd', 'embedding_size': 64, 'layer_num': 2, 'kg_layer_num': 2, 'intent_size': 4, 'reg_weight': 0.0001, 'cl_weight': 0.01, 'distill_weight': 0.1, 'teacher_weight': 0.1, 'temperature': 0.2}, 'tune': {'enable': False, 'hyperparameters': ['layer_num', 'kg_layer_num', 'cl_weight', 'distill_weight'], 'layer_num': [1, 2, 3], 'kg_layer_num': [1, 2, 3], 'cl_weight': [0.01, 0.1, 1.0], 'distill_weight': [0.01, 0.1, 1.0]}, 'device': 'cuda'}
+2025-11-25 21:20:26,118 - [Epoch   0 / 500] bpr_loss: 0.4699 cl_loss: 8.1003 student_loss: 0.2761 teacher_loss: 0.5462 reg_loss: 0.0000 
+2025-11-25 21:20:28,651 - Epoch   0 Test set [recall@5: 0.2202 recall@10: 0.3088 recall@20: 0.4203 ] Test set [ndcg@5: 0.1761 ndcg@10: 0.2094 ndcg@20: 0.2427 ] Test set [hr@5: 0.3362 hr@10: 0.4522 hr@20: 0.5846 ] 
+2025-11-25 21:20:28,653 - Validation score increased. Copying the best model ...
+2025-11-25 21:26:57,118 - [Epoch   1 / 500] bpr_loss: 0.2744 cl_loss: 7.1694 student_loss: 0.2102 teacher_loss: 0.4158 reg_loss: 0.0001 
+2025-11-25 21:26:59,617 - Epoch   1 Test set [recall@5: 0.2343 recall@10: 0.3269 recall@20: 0.4410 ] Test set [ndcg@5: 0.1911 ndcg@10: 0.2258 ndcg@20: 0.2599 ] Test set [hr@5: 0.3617 hr@10: 0.4784 hr@20: 0.6112 ] 
+2025-11-25 21:26:59,619 - Validation score increased. Copying the best model ...
+2025-11-25 21:33:28,461 - [Epoch   2 / 500] bpr_loss: 0.2331 cl_loss: 6.5661 student_loss: 0.2065 teacher_loss: 0.4094 reg_loss: 0.0001 
+2025-11-25 21:33:30,958 - Epoch   2 Test set [recall@5: 0.2455 recall@10: 0.3436 recall@20: 0.4648 ] Test set [ndcg@5: 0.2001 ndcg@10: 0.2371 ndcg@20: 0.2733 ] Test set [hr@5: 0.3816 hr@10: 0.5041 hr@20: 0.6376 ] 
+2025-11-25 21:33:30,960 - Validation score increased. Copying the best model ...
+2025-11-25 21:39:59,904 - [Epoch   3 / 500] bpr_loss: 0.2083 cl_loss: 6.2898 student_loss: 0.2064 teacher_loss: 0.4096 reg_loss: 0.0002 
+2025-11-25 21:40:02,390 - Epoch   3 Test set [recall@5: 0.2570 recall@10: 0.3563 recall@20: 0.4790 ] Test set [ndcg@5: 0.2075 ndcg@10: 0.2448 ndcg@20: 0.2816 ] Test set [hr@5: 0.3952 hr@10: 0.5188 hr@20: 0.6520 ] 
+2025-11-25 21:40:02,391 - Validation score increased. Copying the best model ...
+2025-11-25 21:46:30,857 - [Epoch   4 / 500] bpr_loss: 0.1908 cl_loss: 6.0933 student_loss: 0.2042 teacher_loss: 0.4055 reg_loss: 0.0002 
+2025-11-25 21:46:33,374 - Epoch   4 Test set [recall@5: 0.2693 recall@10: 0.3716 recall@20: 0.4929 ] Test set [ndcg@5: 0.2150 ndcg@10: 0.2535 ndcg@20: 0.2899 ] Test set [hr@5: 0.4126 hr@10: 0.5379 hr@20: 0.6670 ] 
+2025-11-25 21:46:33,376 - Validation score increased. Copying the best model ...
+2025-11-25 21:53:03,562 - [Epoch   5 / 500] bpr_loss: 0.1758 cl_loss: 5.9272 student_loss: 0.2050 teacher_loss: 0.4073 reg_loss: 0.0003 
+2025-11-25 21:53:06,046 - Epoch   5 Test set [recall@5: 0.2775 recall@10: 0.3820 recall@20: 0.5077 ] Test set [ndcg@5: 0.2211 ndcg@10: 0.2606 ndcg@20: 0.2984 ] Test set [hr@5: 0.4240 hr@10: 0.5504 hr@20: 0.6814 ] 
+2025-11-25 21:53:06,048 - Validation score increased. Copying the best model ...
+2025-11-25 21:59:36,645 - [Epoch   6 / 500] bpr_loss: 0.1626 cl_loss: 5.7948 student_loss: 0.2048 teacher_loss: 0.4069 reg_loss: 0.0003 
+2025-11-25 21:59:39,153 - Epoch   6 Test set [recall@5: 0.2863 recall@10: 0.3917 recall@20: 0.5186 ] Test set [ndcg@5: 0.2290 ndcg@10: 0.2687 ndcg@20: 0.3068 ] Test set [hr@5: 0.4364 hr@10: 0.5621 hr@20: 0.6924 ] 
+2025-11-25 21:59:39,154 - Validation score increased. Copying the best model ...
+2025-11-25 22:06:09,763 - [Epoch   7 / 500] bpr_loss: 0.1513 cl_loss: 5.6770 student_loss: 0.2053 teacher_loss: 0.4076 reg_loss: 0.0004 
+2025-11-25 22:06:12,254 - Epoch   7 Test set [recall@5: 0.2929 recall@10: 0.4004 recall@20: 0.5282 ] Test set [ndcg@5: 0.2347 ndcg@10: 0.2753 ndcg@20: 0.3136 ] Test set [hr@5: 0.4439 hr@10: 0.5713 hr@20: 0.7022 ] 
+2025-11-25 22:06:12,256 - Validation score increased. Copying the best model ...
+2025-11-25 22:12:44,072 - [Epoch   8 / 500] bpr_loss: 0.1406 cl_loss: 5.5977 student_loss: 0.2055 teacher_loss: 0.4075 reg_loss: 0.0004 
+2025-11-25 22:12:46,562 - Epoch   8 Test set [recall@5: 0.2982 recall@10: 0.4082 recall@20: 0.5373 ] Test set [ndcg@5: 0.2410 ndcg@10: 0.2824 ndcg@20: 0.3211 ] Test set [hr@5: 0.4520 hr@10: 0.5817 hr@20: 0.7101 ] 
+2025-11-25 22:12:46,564 - Validation score increased. Copying the best model ...
+2025-11-25 22:19:16,677 - [Epoch   9 / 500] bpr_loss: 0.1302 cl_loss: 5.5381 student_loss: 0.2055 teacher_loss: 0.4074 reg_loss: 0.0005 
+2025-11-25 22:19:19,181 - Epoch   9 Test set [recall@5: 0.3048 recall@10: 0.4143 recall@20: 0.5443 ] Test set [ndcg@5: 0.2460 ndcg@10: 0.2873 ndcg@20: 0.3263 ] Test set [hr@5: 0.4591 hr@10: 0.5889 hr@20: 0.7172 ] 
+2025-11-25 22:19:19,183 - Validation score increased. Copying the best model ...
+2025-11-25 22:25:49,861 - [Epoch  10 / 500] bpr_loss: 0.1222 cl_loss: 5.4867 student_loss: 0.2051 teacher_loss: 0.4068 reg_loss: 0.0005 
+2025-11-25 22:25:52,356 - Epoch  10 Test set [recall@5: 0.3085 recall@10: 0.4214 recall@20: 0.5508 ] Test set [ndcg@5: 0.2496 ndcg@10: 0.2922 ndcg@20: 0.3311 ] Test set [hr@5: 0.4642 hr@10: 0.5971 hr@20: 0.7240 ] 
+2025-11-25 22:25:52,358 - Validation score increased. Copying the best model ...
+2025-11-25 22:32:22,212 - [Epoch  11 / 500] bpr_loss: 0.1141 cl_loss: 5.4473 student_loss: 0.2040 teacher_loss: 0.4050 reg_loss: 0.0006 
+2025-11-25 22:32:24,723 - Epoch  11 Test set [recall@5: 0.3137 recall@10: 0.4285 recall@20: 0.5575 ] Test set [ndcg@5: 0.2544 ndcg@10: 0.2976 ndcg@20: 0.3364 ] Test set [hr@5: 0.4709 hr@10: 0.6033 hr@20: 0.7296 ] 
+2025-11-25 22:32:24,725 - Validation score increased. Copying the best model ...
+2025-11-25 22:38:53,749 - [Epoch  12 / 500] bpr_loss: 0.1072 cl_loss: 5.4056 student_loss: 0.2031 teacher_loss: 0.4037 reg_loss: 0.0007 
+2025-11-25 22:38:56,237 - Epoch  12 Test set [recall@5: 0.3175 recall@10: 0.4317 recall@20: 0.5605 ] Test set [ndcg@5: 0.2573 ndcg@10: 0.3004 ndcg@20: 0.3391 ] Test set [hr@5: 0.4758 hr@10: 0.6070 hr@20: 0.7325 ] 
+2025-11-25 22:38:56,239 - Validation score increased. Copying the best model ...
+2025-11-25 22:45:25,409 - [Epoch  13 / 500] bpr_loss: 0.1001 cl_loss: 5.3724 student_loss: 0.2028 teacher_loss: 0.4034 reg_loss: 0.0007 
+2025-11-25 22:45:28,279 - Epoch  13 Test set [recall@5: 0.3193 recall@10: 0.4369 recall@20: 0.5665 ] Test set [ndcg@5: 0.2602 ndcg@10: 0.3045 ndcg@20: 0.3436 ] Test set [hr@5: 0.4786 hr@10: 0.6117 hr@20: 0.7377 ] 
+2025-11-25 22:45:28,281 - Validation score increased. Copying the best model ...
+2025-11-25 22:51:57,931 - [Epoch  14 / 500] bpr_loss: 0.0947 cl_loss: 5.3450 student_loss: 0.2026 teacher_loss: 0.4032 reg_loss: 0.0008 
+2025-11-25 22:52:00,421 - Epoch  14 Test set [recall@5: 0.3224 recall@10: 0.4410 recall@20: 0.5711 ] Test set [ndcg@5: 0.2616 ndcg@10: 0.3064 ndcg@20: 0.3455 ] Test set [hr@5: 0.4829 hr@10: 0.6168 hr@20: 0.7419 ] 
+2025-11-25 22:52:00,423 - Validation score increased. Copying the best model ...
+2025-11-25 22:58:28,549 - [Epoch  15 / 500] bpr_loss: 0.0882 cl_loss: 5.3177 student_loss: 0.2028 teacher_loss: 0.4039 reg_loss: 0.0008 
+2025-11-25 22:58:31,027 - Epoch  15 Test set [recall@5: 0.3264 recall@10: 0.4457 recall@20: 0.5748 ] Test set [ndcg@5: 0.2658 ndcg@10: 0.3109 ndcg@20: 0.3497 ] Test set [hr@5: 0.4865 hr@10: 0.6220 hr@20: 0.7457 ] 
+2025-11-25 22:58:31,029 - Validation score increased. Copying the best model ...
+2025-11-25 23:05:00,938 - [Epoch  16 / 500] bpr_loss: 0.0831 cl_loss: 5.2920 student_loss: 0.2033 teacher_loss: 0.4051 reg_loss: 0.0009 
+2025-11-25 23:05:03,422 - Epoch  16 Test set [recall@5: 0.3297 recall@10: 0.4478 recall@20: 0.5764 ] Test set [ndcg@5: 0.2689 ndcg@10: 0.3135 ndcg@20: 0.3522 ] Test set [hr@5: 0.4909 hr@10: 0.6233 hr@20: 0.7469 ] 
+2025-11-25 23:05:03,423 - Validation score increased. Copying the best model ...
+2025-11-25 23:11:31,922 - [Epoch  17 / 500] bpr_loss: 0.0799 cl_loss: 5.2669 student_loss: 0.2026 teacher_loss: 0.4039 reg_loss: 0.0010 
+2025-11-25 23:11:34,402 - Epoch  17 Test set [recall@5: 0.3314 recall@10: 0.4501 recall@20: 0.5788 ] Test set [ndcg@5: 0.2712 ndcg@10: 0.3161 ndcg@20: 0.3548 ] Test set [hr@5: 0.4924 hr@10: 0.6253 hr@20: 0.7491 ] 
+2025-11-25 23:11:34,404 - Validation score increased. Copying the best model ...
+2025-11-25 23:18:04,031 - [Epoch  18 / 500] bpr_loss: 0.0753 cl_loss: 5.2499 student_loss: 0.2028 teacher_loss: 0.4045 reg_loss: 0.0011 
+2025-11-25 23:18:06,510 - Epoch  18 Test set [recall@5: 0.3341 recall@10: 0.4529 recall@20: 0.5814 ] Test set [ndcg@5: 0.2726 ndcg@10: 0.3175 ndcg@20: 0.3561 ] Test set [hr@5: 0.4957 hr@10: 0.6273 hr@20: 0.7515 ] 
+2025-11-25 23:18:06,512 - Validation score increased. Copying the best model ...
+2025-11-25 23:24:36,846 - [Epoch  19 / 500] bpr_loss: 0.0713 cl_loss: 5.2245 student_loss: 0.2022 teacher_loss: 0.4031 reg_loss: 0.0011 
+2025-11-25 23:24:39,343 - Epoch  19 Test set [recall@5: 0.3355 recall@10: 0.4542 recall@20: 0.5838 ] Test set [ndcg@5: 0.2744 ndcg@10: 0.3192 ndcg@20: 0.3582 ] Test set [hr@5: 0.4978 hr@10: 0.6281 hr@20: 0.7544 ] 
+2025-11-25 23:24:39,345 - Validation score increased. Copying the best model ...
+2025-11-25 23:31:08,628 - [Epoch  20 / 500] bpr_loss: 0.0675 cl_loss: 5.2093 student_loss: 0.2025 teacher_loss: 0.4037 reg_loss: 0.0012 
+2025-11-25 23:31:11,109 - Epoch  20 Test set [recall@5: 0.3372 recall@10: 0.4558 recall@20: 0.5863 ] Test set [ndcg@5: 0.2763 ndcg@10: 0.3211 ndcg@20: 0.3604 ] Test set [hr@5: 0.4996 hr@10: 0.6317 hr@20: 0.7557 ] 
+2025-11-25 23:31:11,111 - Validation score increased. Copying the best model ...
+2025-11-25 23:37:40,358 - [Epoch  21 / 500] bpr_loss: 0.0644 cl_loss: 5.1853 student_loss: 0.2030 teacher_loss: 0.4048 reg_loss: 0.0013 
+2025-11-25 23:37:42,846 - Epoch  21 Test set [recall@5: 0.3381 recall@10: 0.4568 recall@20: 0.5862 ] Test set [ndcg@5: 0.2774 ndcg@10: 0.3223 ndcg@20: 0.3613 ] Test set [hr@5: 0.5006 hr@10: 0.6316 hr@20: 0.7562 ] 
+2025-11-25 23:37:42,848 - Validation score increased. Copying the best model ...
+2025-11-25 23:44:12,117 - [Epoch  22 / 500] bpr_loss: 0.0621 cl_loss: 5.1687 student_loss: 0.2020 teacher_loss: 0.4028 reg_loss: 0.0013 
+2025-11-25 23:44:14,594 - Epoch  22 Test set [recall@5: 0.3384 recall@10: 0.4589 recall@20: 0.5870 ] Test set [ndcg@5: 0.2782 ndcg@10: 0.3238 ndcg@20: 0.3624 ] Test set [hr@5: 0.5010 hr@10: 0.6345 hr@20: 0.7562 ] 
+2025-11-25 23:44:14,595 - Validation score increased. Copying the best model ...
+2025-11-25 23:50:44,225 - [Epoch  23 / 500] bpr_loss: 0.0573 cl_loss: 5.1498 student_loss: 0.2014 teacher_loss: 0.4015 reg_loss: 0.0014 
+2025-11-25 23:50:46,930 - Epoch  23 Test set [recall@5: 0.3415 recall@10: 0.4588 recall@20: 0.5884 ] Test set [ndcg@5: 0.2806 ndcg@10: 0.3250 ndcg@20: 0.3640 ] Test set [hr@5: 0.5056 hr@10: 0.6340 hr@20: 0.7576 ] 
+2025-11-25 23:50:46,932 - Validation score increased. Copying the best model ...
+2025-11-25 23:57:17,960 - [Epoch  24 / 500] bpr_loss: 0.0557 cl_loss: 5.1316 student_loss: 0.2016 teacher_loss: 0.4020 reg_loss: 0.0015 
+2025-11-25 23:57:20,443 - Epoch  24 Test set [recall@5: 0.3419 recall@10: 0.4599 recall@20: 0.5894 ] Test set [ndcg@5: 0.2819 ndcg@10: 0.3265 ndcg@20: 0.3655 ] Test set [hr@5: 0.5059 hr@10: 0.6348 hr@20: 0.7583 ] 
+2025-11-25 23:57:20,444 - Validation score increased. Copying the best model ...
+2025-11-26 00:03:51,512 - [Epoch  25 / 500] bpr_loss: 0.0526 cl_loss: 5.1187 student_loss: 0.2016 teacher_loss: 0.4019 reg_loss: 0.0016 
+2025-11-26 00:03:54,022 - Epoch  25 Test set [recall@5: 0.3430 recall@10: 0.4599 recall@20: 0.5897 ] Test set [ndcg@5: 0.2833 ndcg@10: 0.3275 ndcg@20: 0.3666 ] Test set [hr@5: 0.5074 hr@10: 0.6349 hr@20: 0.7587 ] 
+2025-11-26 00:03:54,023 - Validation score increased. Copying the best model ...
+2025-11-26 00:10:25,662 - [Epoch  26 / 500] bpr_loss: 0.0502 cl_loss: 5.0992 student_loss: 0.2016 teacher_loss: 0.4019 reg_loss: 0.0016 
+2025-11-26 00:10:28,157 - Epoch  26 Test set [recall@5: 0.3422 recall@10: 0.4612 recall@20: 0.5889 ] Test set [ndcg@5: 0.2830 ndcg@10: 0.3279 ndcg@20: 0.3665 ] Test set [hr@5: 0.5057 hr@10: 0.6364 hr@20: 0.7579 ] 
+2025-11-26 00:10:28,157 - Early stop counter: 1 out of 10
+2025-11-26 00:16:56,931 - [Epoch  27 / 500] bpr_loss: 0.0481 cl_loss: 5.0839 student_loss: 0.2013 teacher_loss: 0.4013 reg_loss: 0.0017 
+2025-11-26 00:16:59,747 - Epoch  27 Test set [recall@5: 0.3452 recall@10: 0.4628 recall@20: 0.5913 ] Test set [ndcg@5: 0.2857 ndcg@10: 0.3301 ndcg@20: 0.3688 ] Test set [hr@5: 0.5094 hr@10: 0.6389 hr@20: 0.7592 ] 
+2025-11-26 00:16:59,749 - Validation score increased. Copying the best model ...
+2025-11-26 00:23:28,955 - [Epoch  28 / 500] bpr_loss: 0.0461 cl_loss: 5.0694 student_loss: 0.2012 teacher_loss: 0.4012 reg_loss: 0.0018 
+2025-11-26 00:23:31,824 - Epoch  28 Test set [recall@5: 0.3452 recall@10: 0.4618 recall@20: 0.5901 ] Test set [ndcg@5: 0.2862 ndcg@10: 0.3303 ndcg@20: 0.3689 ] Test set [hr@5: 0.5094 hr@10: 0.6364 hr@20: 0.7581 ] 
+2025-11-26 00:23:31,825 - Validation score increased. Copying the best model ...
+2025-11-26 00:30:01,166 - [Epoch  29 / 500] bpr_loss: 0.0447 cl_loss: 5.0553 student_loss: 0.2013 teacher_loss: 0.4013 reg_loss: 0.0018 
+2025-11-26 00:30:03,650 - Epoch  29 Test set [recall@5: 0.3443 recall@10: 0.4623 recall@20: 0.5902 ] Test set [ndcg@5: 0.2847 ndcg@10: 0.3293 ndcg@20: 0.3678 ] Test set [hr@5: 0.5081 hr@10: 0.6376 hr@20: 0.7583 ] 
+2025-11-26 00:30:03,650 - Early stop counter: 1 out of 10
+2025-11-26 00:36:32,770 - [Epoch  30 / 500] bpr_loss: 0.0424 cl_loss: 5.0438 student_loss: 0.2004 teacher_loss: 0.3994 reg_loss: 0.0019 
+2025-11-26 00:36:35,255 - Epoch  30 Test set [recall@5: 0.3478 recall@10: 0.4641 recall@20: 0.5920 ] Test set [ndcg@5: 0.2878 ndcg@10: 0.3317 ndcg@20: 0.3703 ] Test set [hr@5: 0.5127 hr@10: 0.6397 hr@20: 0.7598 ] 
+2025-11-26 00:36:35,257 - Validation score increased. Copying the best model ...
+2025-11-26 00:43:03,913 - [Epoch  31 / 500] bpr_loss: 0.0406 cl_loss: 5.0306 student_loss: 0.2009 teacher_loss: 0.4006 reg_loss: 0.0020 
+2025-11-26 00:43:06,455 - Epoch  31 Test set [recall@5: 0.3467 recall@10: 0.4646 recall@20: 0.5924 ] Test set [ndcg@5: 0.2868 ndcg@10: 0.3314 ndcg@20: 0.3700 ] Test set [hr@5: 0.5105 hr@10: 0.6395 hr@20: 0.7608 ] 
+2025-11-26 00:43:06,455 - Early stop counter: 1 out of 10
+2025-11-26 00:49:38,369 - [Epoch  32 / 500] bpr_loss: 0.0388 cl_loss: 5.0142 student_loss: 0.2002 teacher_loss: 0.3991 reg_loss: 0.0020 
+2025-11-26 00:49:40,858 - Epoch  32 Test set [recall@5: 0.3456 recall@10: 0.4630 recall@20: 0.5927 ] Test set [ndcg@5: 0.2870 ndcg@10: 0.3314 ndcg@20: 0.3705 ] Test set [hr@5: 0.5090 hr@10: 0.6381 hr@20: 0.7605 ] 
+2025-11-26 00:49:40,859 - Early stop counter: 2 out of 10
+2025-11-26 00:56:10,004 - [Epoch  33 / 500] bpr_loss: 0.0367 cl_loss: 5.0035 student_loss: 0.2006 teacher_loss: 0.3999 reg_loss: 0.0021 
+2025-11-26 00:56:12,502 - Epoch  33 Test set [recall@5: 0.3483 recall@10: 0.4640 recall@20: 0.5922 ] Test set [ndcg@5: 0.2889 ndcg@10: 0.3327 ndcg@20: 0.3714 ] Test set [hr@5: 0.5122 hr@10: 0.6391 hr@20: 0.7595 ] 
+2025-11-26 00:56:12,504 - Validation score increased. Copying the best model ...
+2025-11-26 01:02:43,130 - [Epoch  34 / 500] bpr_loss: 0.0366 cl_loss: 4.9884 student_loss: 0.2011 teacher_loss: 0.4010 reg_loss: 0.0022 
+2025-11-26 01:02:45,637 - Epoch  34 Test set [recall@5: 0.3485 recall@10: 0.4657 recall@20: 0.5930 ] Test set [ndcg@5: 0.2904 ndcg@10: 0.3347 ndcg@20: 0.3731 ] Test set [hr@5: 0.5127 hr@10: 0.6407 hr@20: 0.7601 ] 
+2025-11-26 01:02:45,638 - Validation score increased. Copying the best model ...
+2025-11-26 01:09:16,566 - [Epoch  35 / 500] bpr_loss: 0.0342 cl_loss: 4.9793 student_loss: 0.2012 teacher_loss: 0.4014 reg_loss: 0.0022 
+2025-11-26 01:09:19,082 - Epoch  35 Test set [recall@5: 0.3473 recall@10: 0.4653 recall@20: 0.5924 ] Test set [ndcg@5: 0.2893 ndcg@10: 0.3339 ndcg@20: 0.3723 ] Test set [hr@5: 0.5118 hr@10: 0.6404 hr@20: 0.7590 ] 
+2025-11-26 01:09:19,082 - Early stop counter: 1 out of 10
+2025-11-26 01:15:47,836 - [Epoch  36 / 500] bpr_loss: 0.0328 cl_loss: 4.9699 student_loss: 0.2003 teacher_loss: 0.3995 reg_loss: 0.0023 
+2025-11-26 01:15:50,711 - Epoch  36 Test set [recall@5: 0.3465 recall@10: 0.4632 recall@20: 0.5918 ] Test set [ndcg@5: 0.2891 ndcg@10: 0.3331 ndcg@20: 0.3719 ] Test set [hr@5: 0.5107 hr@10: 0.6385 hr@20: 0.7583 ] 
+2025-11-26 01:15:50,711 - Early stop counter: 2 out of 10
+2025-11-26 01:22:18,359 - [Epoch  37 / 500] bpr_loss: 0.0323 cl_loss: 4.9589 student_loss: 0.2010 teacher_loss: 0.4008 reg_loss: 0.0024 
+2025-11-26 01:22:20,843 - Epoch  37 Test set [recall@5: 0.3472 recall@10: 0.4624 recall@20: 0.5916 ] Test set [ndcg@5: 0.2898 ndcg@10: 0.3333 ndcg@20: 0.3724 ] Test set [hr@5: 0.5120 hr@10: 0.6371 hr@20: 0.7581 ] 
+2025-11-26 01:22:20,844 - Early stop counter: 3 out of 10
+2025-11-26 01:28:51,353 - [Epoch  38 / 500] bpr_loss: 0.0310 cl_loss: 4.9470 student_loss: 0.2011 teacher_loss: 0.4011 reg_loss: 0.0024 
+2025-11-26 01:28:53,846 - Epoch  38 Test set [recall@5: 0.3474 recall@10: 0.4636 recall@20: 0.5922 ] Test set [ndcg@5: 0.2902 ndcg@10: 0.3341 ndcg@20: 0.3730 ] Test set [hr@5: 0.5123 hr@10: 0.6393 hr@20: 0.7589 ] 
+2025-11-26 01:28:53,846 - Early stop counter: 4 out of 10
+2025-11-26 01:35:23,263 - [Epoch  39 / 500] bpr_loss: 0.0296 cl_loss: 4.9361 student_loss: 0.1999 teacher_loss: 0.3987 reg_loss: 0.0025 
+2025-11-26 01:35:25,760 - Epoch  39 Test set [recall@5: 0.3474 recall@10: 0.4634 recall@20: 0.5916 ] Test set [ndcg@5: 0.2898 ndcg@10: 0.3336 ndcg@20: 0.3723 ] Test set [hr@5: 0.5127 hr@10: 0.6387 hr@20: 0.7585 ] 
+2025-11-26 01:35:25,761 - Early stop counter: 5 out of 10
+2025-11-26 01:41:56,647 - [Epoch  40 / 500] bpr_loss: 0.0288 cl_loss: 4.9257 student_loss: 0.1998 teacher_loss: 0.3986 reg_loss: 0.0025 
+2025-11-26 01:41:59,151 - Epoch  40 Test set [recall@5: 0.3477 recall@10: 0.4634 recall@20: 0.5915 ] Test set [ndcg@5: 0.2914 ndcg@10: 0.3352 ndcg@20: 0.3739 ] Test set [hr@5: 0.5127 hr@10: 0.6387 hr@20: 0.7583 ] 
+2025-11-26 01:41:59,151 - Early stop counter: 6 out of 10
+2025-11-26 01:48:29,455 - [Epoch  41 / 500] bpr_loss: 0.0278 cl_loss: 4.9168 student_loss: 0.2003 teacher_loss: 0.3994 reg_loss: 0.0026 
+2025-11-26 01:48:31,936 - Epoch  41 Test set [recall@5: 0.3463 recall@10: 0.4626 recall@20: 0.5896 ] Test set [ndcg@5: 0.2902 ndcg@10: 0.3341 ndcg@20: 0.3725 ] Test set [hr@5: 0.5120 hr@10: 0.6380 hr@20: 0.7561 ] 
+2025-11-26 01:48:31,936 - Early stop counter: 7 out of 10
+2025-11-26 01:55:00,196 - [Epoch  42 / 500] bpr_loss: 0.0269 cl_loss: 4.9106 student_loss: 0.2012 teacher_loss: 0.4014 reg_loss: 0.0026 
+2025-11-26 01:55:02,698 - Epoch  42 Test set [recall@5: 0.3471 recall@10: 0.4629 recall@20: 0.5890 ] Test set [ndcg@5: 0.2913 ndcg@10: 0.3351 ndcg@20: 0.3732 ] Test set [hr@5: 0.5128 hr@10: 0.6385 hr@20: 0.7556 ] 
+2025-11-26 01:55:02,698 - Early stop counter: 8 out of 10
+2025-11-26 02:01:33,751 - [Epoch  43 / 500] bpr_loss: 0.0258 cl_loss: 4.9028 student_loss: 0.2005 teacher_loss: 0.3998 reg_loss: 0.0027 
+2025-11-26 02:01:36,672 - Epoch  43 Test set [recall@5: 0.3471 recall@10: 0.4625 recall@20: 0.5893 ] Test set [ndcg@5: 0.2911 ndcg@10: 0.3347 ndcg@20: 0.3731 ] Test set [hr@5: 0.5122 hr@10: 0.6378 hr@20: 0.7562 ] 
+2025-11-26 02:01:36,673 - Early stop counter: 9 out of 10
+2025-11-26 02:08:05,545 - [Epoch  44 / 500] bpr_loss: 0.0252 cl_loss: 4.8917 student_loss: 0.2005 teacher_loss: 0.3998 reg_loss: 0.0028 
+2025-11-26 02:08:08,473 - Epoch  44 Test set [recall@5: 0.3462 recall@10: 0.4620 recall@20: 0.5878 ] Test set [ndcg@5: 0.2906 ndcg@10: 0.3343 ndcg@20: 0.3723 ] Test set [hr@5: 0.5115 hr@10: 0.6368 hr@20: 0.7546 ] 
+2025-11-26 02:08:08,473 - Early stop counter: 10 out of 10
+2025-11-26 02:08:08,473 - Best Epoch 34
+2025-11-26 02:08:10,951 - Test set [recall@5: 0.3485 recall@10: 0.4657 recall@20: 0.5930 ] Test set [ndcg@5: 0.2904 ndcg@10: 0.3347 ndcg@20: 0.3731 ] Test set [hr@5: 0.5127 hr@10: 0.6407 hr@20: 0.7601 ] 
+2025-11-26 02:08:13,439 - Test set [recall@5: 0.3485 recall@10: 0.4657 recall@20: 0.5930 ] Test set [ndcg@5: 0.2904 ndcg@10: 0.3347 ndcg@20: 0.3731 ] Test set [hr@5: 0.5127 hr@10: 0.6407 hr@20: 0.7601 ] 

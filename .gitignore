@@ -41,10 +41,6 @@ env/
 *.pth
 *.pt
 
-# Logs
-log/
-*.log
-
 # Checkpoints
 checkpoint/
 
