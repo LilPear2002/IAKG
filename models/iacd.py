@@ -84,7 +84,7 @@ class CollaborativeDenoiser(nn.Module):
 class RGAT(nn.Module):
     """Relational Graph Attention Network for KG propagation"""
 
-    def __init__(self, embedding_size, n_layers=2, mess_dropout_rate=0.1):
+    def __init__(self, embedding_size, n_layers=2, mess_dropout_rate=0.2):
         super(RGAT, self).__init__()
         self.n_layers = n_layers
         self.embedding_size = embedding_size
@@ -186,7 +186,7 @@ class IACD(nn.Module):
 
         # Initialize modules
         self.collaborative_denoiser = CollaborativeDenoiser(self.embedding_size)
-        self.kg_gnn = RGAT(self.embedding_size, self.kg_layer_num, mess_dropout_rate=0.1)
+        self.kg_gnn = RGAT(self.embedding_size, self.kg_layer_num, mess_dropout_rate=0.2)
 
         self.item_to_edges = self._build_item_to_edges_mapping()
 
@@ -396,7 +396,7 @@ class IACD(nn.Module):
         )
 
         # View 1 for contrastive learning
-        student_score_view1 = F.dropout(student_score, p=0.1, training=self.training)
+        student_score_view1 = F.dropout(student_score, p=0.2, training=self.training)
         kg_emb_view1 = self.kg_gnn(
             self.entity_embed,
             self.relation_embed,
@@ -407,7 +407,7 @@ class IACD(nn.Module):
         )
 
         # View 2 for contrastive learning
-        student_score_view2 = F.dropout(student_score, p=0.1, training=self.training)
+        student_score_view2 = F.dropout(student_score, p=0.2, training=self.training)
         kg_emb_view2 = self.kg_gnn(
             self.entity_embed,
             self.relation_embed,
