@@ -1,15 +1,10 @@
-# IACD Model Configuration
-# Intent-Aware Collaborative Denoising for Knowledge Graph-Enhanced Recommendation
-
-# Optimizer settings
 optimizer:
-  name: adam                # Optimizer type: adam, sgd, adagrad
-  lr: 1.0e-3               # Learning rate
-  weight_decay: 0          # L2 regularization in optimizer (set to 0, use model's reg_weight instead)
+  name: adam                
+  lr: 1.0e-3               
+  weight_decay: 0          
 
-# Training settings
 train:
-  epoch: 100               # Maximum number of training epochs
+  epoch: 200               # Maximum number of training epochs
   batch_size: 1024         # Training batch size (users per batch)
   save_model: false        # Whether to save model checkpoints
   loss: pairwise           # Loss type: pairwise (BPR)
@@ -18,17 +13,15 @@ train:
   reproducible: true       # Enable reproducible results
   seed: 2025              # Random seed for reproducibility
 
-# Test/Evaluation settings
 test:
   metrics: [recall, ndcg, hr]  # Evaluation metrics
   k: [5, 10, 20]              # Top-K for metrics
   batch_size: 1024            # Evaluation batch size
   eval_at_one_forward: true   # Compute all embeddings at once (faster for GNN models)
 
-# Data settings
 data:
   type: kg                 # Data type: kg (knowledge graph)
-  name: mooc              # Dataset name: mooc, last-fm, mind, alibaba-fashion
+  name: mooc              # Dataset name: mooc, mooper, coco
 
 # Model architecture settings
 model:
@@ -45,19 +38,10 @@ model:
   intent_size: 4        # Number of user intent prototypes
   
   # Loss weights
-  reg_weight: 1.0e-4     # L2 regularization weight
+  reg_weight: 1.0e-2     # L2 regularization weight
   cl_weight: 0.01        # Contrastive learning loss weight
   student_weight: 0.1    # Student distillation loss weight
   teacher_weight: 0.1    # Teacher supervision loss weight
   
   # Temperature
   temperature: 0.2       # Temperature for contrastive learning
-
-# Hyperparameter tuning (grid search)
-tune:
-  enable: false          # Enable hyperparameter tuning
-  hyperparameters: [layer_num, kg_layer_num, cl_weight, distill_weight]
-  layer_num: [1, 2, 3]
-  kg_layer_num: [1, 2, 3]
-  cl_weight: [0.01, 0.1, 1.0]
-  distill_weight: [0.01, 0.1, 1.0]

@@ -1,7 +1,3 @@
-"""
-IACD: Intent-Aware Collaborative Denoising for Knowledge Graph-Enhanced Recommendation
-"""
-
 import torch
 from torch import nn
 import torch.nn.functional as F
@@ -14,24 +10,27 @@ from models.loss_utils import cal_bpr_loss, reg_pick_embeds
 
 
 class CollaborativeDenoiser(nn.Module):
-    """Collaborative denoiser with student-teacher framework for KG edge denoising"""
 
     def __init__(self, embedding_size, hidden_size=128):
         super(CollaborativeDenoiser, self).__init__()
         self.embedding_size = embedding_size
+        
+        input_dim = 4 * embedding_size
 
         # Student network learns edge weights from user intent
         self.student_network = nn.Sequential(
-            nn.Linear(embedding_size, hidden_size),
+            nn.Linear(input_dim, hidden_size),
             nn.ReLU(),
+            nn.Dropout(0.1),
             nn.Linear(hidden_size, 1),
             nn.Sigmoid()
         )
 
         # Teacher network provides supervision signals
         self.teacher_network = nn.Sequential(
-            nn.Linear(embedding_size, hidden_size),
+            nn.Linear(input_dim, hidden_size),
             nn.ReLU(),
+            nn.Dropout(0.1),
             nn.Linear(hidden_size, 1),
             nn.Sigmoid()
         )
@@ -50,9 +49,9 @@ class CollaborativeDenoiser(nn.Module):
 
         for i in range(0, n_edges, chunk_size):
             semantic_chunk = edge_semantic[i: i + chunk_size]
-            # head_chunk = head_emb[i: i + chunk_size]
-            # rel_chunk = rel_emb[i: i + chunk_size]
-            # tail_chunk = tail_emb[i: i + chunk_size]
+            head_chunk = head_emb[i: i + chunk_size]
+            rel_chunk = rel_emb[i: i + chunk_size]
+            tail_chunk = tail_emb[i: i + chunk_size]
 
             # Compute intent-aware attention
             similarity = torch.matmul(semantic_chunk, user_intent_emb.T)
@@ -66,8 +65,8 @@ class CollaborativeDenoiser(nn.Module):
             chunk_context = torch.matmul(attn_weights, user_intent_emb)
 
             # Concatenate edge features with intent context
-            # edge_repr_chunk = torch.cat([head_chunk, rel_chunk, tail_chunk, chunk_context], dim=-1)
-            edge_repr_chunk = chunk_context
+            edge_repr_chunk = torch.cat([head_chunk, rel_chunk, tail_chunk, chunk_context], dim=-1)
+            # edge_repr_chunk = chunk_context
 
             s_score = self.student_network(edge_repr_chunk).squeeze(-1)
             t_score = self.teacher_network(edge_repr_chunk).squeeze(-1)
@@ -89,12 +88,6 @@ class RGAT(nn.Module):
         self.n_layers = n_layers
         self.embedding_size = embedding_size
         self.mess_dropout_rate = mess_dropout_rate
-
-        self.W = nn.Parameter(torch.empty(size=(embedding_size, embedding_size)))
-        nn.init.xavier_uniform_(self.W.data, gain=1.414)
-
-        self.a = nn.Parameter(torch.empty(size=(2 * embedding_size, 1)))
-        nn.init.xavier_uniform_(self.a.data, gain=1.414)
 
         self.fc = nn.Linear(2 * embedding_size, embedding_size)
 
@@ -170,7 +163,7 @@ class IACD(nn.Module):
 
         # Prepare KG edge index and types
         kg_edges_array = np.array(self.kg_edges)
-        self.edge_index = torch.LongTensor([kg_edges_array[:, 0], kg_edges_array[:, 1]]).to(configs['device'])
+        self.edge_index = torch.from_numpy(kg_edges_array[:, :2].transpose()).long().to(configs['device'])
         self.edge_type = torch.LongTensor(kg_edges_array[:, 2]).to(configs['device'])
 
         # Initialize embeddings
@@ -325,37 +318,42 @@ class IACD(nn.Module):
     def distillation_loss(self, student_score, teacher_score, pos_items, neg_items, head_emb, rel_emb, tail_emb, user_intent_batch):
 
         edge_labels, pos_mask, neg_mask = self.get_edge_labels(pos_items, neg_items)
+ 
+        valid_mask = pos_mask | neg_mask
+        invalid_mask = ~valid_mask  
+
+        teacher_loss_hard = 0.0
+        if valid_mask.sum() > 0:
+            teacher_loss_hard = F.binary_cross_entropy(
+                teacher_score[valid_mask], 
+                edge_labels[valid_mask]
+            )
 
         edge_semantic = (head_emb + rel_emb + tail_emb) / 3.0
-
         batch_avg_intent = user_intent_batch.mean(dim=0)
-        
         semantic_logits = torch.matmul(edge_semantic, batch_avg_intent)
-        
         semantic_logits = semantic_logits / torch.sqrt(torch.tensor(self.embedding_size).float())
-        soft_labels = torch.sigmoid(semantic_logits)
+        soft_labels = torch.sigmoid(semantic_logits).detach()
+        
+        teacher_loss_soft = 0.0
+        if invalid_mask.sum() > 0:
+            teacher_loss_soft = F.mse_loss(
+                teacher_score[invalid_mask], 
+                soft_labels[invalid_mask]
+            )
 
-        targets = soft_labels.detach()
-
-        if pos_mask.sum() > 0:
-            targets[pos_mask] = 1.0
-
-        if neg_mask.sum() > 0:
-            targets[neg_mask] = 0.0
-
-        teacher_loss = F.binary_cross_entropy(teacher_score, targets)
+        teacher_loss = teacher_loss_hard + teacher_loss_soft
 
         student_loss_distill = F.mse_loss(student_score, teacher_score.detach())
 
-        valid_mask = pos_mask | neg_mask
+        student_loss_align = 0.0
         if valid_mask.sum() > 0:
             student_loss_align = F.binary_cross_entropy(
                 student_score[valid_mask],
                 edge_labels[valid_mask]
             )
-            student_loss = student_loss_distill + 0.5 * student_loss_align
-        else:
-            student_loss = student_loss_distill
+
+        student_loss = student_loss_distill + 0.5 * student_loss_align
 
         return student_loss, teacher_loss
 

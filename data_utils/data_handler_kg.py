@@ -1,7 +1,3 @@
-"""
-Data handler for knowledge graph-enhanced recommendation
-"""
-
 import torch
 import torch.utils.data as data
 import numpy as np
@@ -15,14 +11,12 @@ from .datasets_kg import KGTrainDataset, KGTestDataset
 
 class DataHandlerKG:
     def __init__(self) -> None:
-        if configs['data']['name'] == 'mind':
-            predir = './datasets/kg/mind_kg/'
-        elif configs['data']['name'] == 'alibaba-fashion':
-            predir = './datasets/kg/alibaba-fashion_kg/'
-        elif configs['data']['name'] == 'last-fm':
-            predir = './datasets/kg/last-fm_kg/'
-        elif configs['data']['name'] == 'mooc':
+        if configs['data']['name'] == 'mooc':
             predir = './datasets/kg/mooccube_kg/'
+        elif configs['data']['name'] == 'mooper':
+            predir = './datasets/kg/mooper_kg/'
+        elif configs['data']['name'] == 'coco':
+            predir = './datasets/kg/coco_kg/'
         else:
             raise ValueError(f"Unknown dataset: {configs['data']['name']}")
 

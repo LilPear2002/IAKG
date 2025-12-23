@@ -1,7 +1,3 @@
-"""
-Dataset classes for knowledge graph-enhanced recommendation
-"""
-
 import torch.utils.data as data
 from config.configurator import configs
 import numpy as np

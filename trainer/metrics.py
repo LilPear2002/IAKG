@@ -1,7 +1,3 @@
-"""
-Evaluation metrics for recommendation
-"""
-
 import torch
 import numpy as np
 from config.configurator import configs

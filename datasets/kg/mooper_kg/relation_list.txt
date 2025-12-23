@@ -1,0 +1,9 @@
+org_id remap_id
+belongs_to_discipline 0
+belongs_to_subdiscipline 1
+created_by 2
+has_challenge 3
+has_chapter 4
+has_exercise 5
+has_topic 6
+taught_by 7

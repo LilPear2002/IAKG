@@ -29,7 +29,6 @@ def init_seed():
 
 
 class Trainer(object):
-    """Trainer for AICLKG model"""
 
     def __init__(self, data_handler, logger):
         self.data_handler = data_handler

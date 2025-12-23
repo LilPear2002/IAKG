@@ -1,7 +1,3 @@
-"""
-Loss functions for IACD model
-"""
-
 import torch
 import torch.nn.functional as F
 

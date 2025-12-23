@@ -6,7 +6,7 @@ Official PyTorch implementation of **IACD** (Intent-Aware Collaborative Denoisin
 
 IACD addresses the challenge of noisy knowledge graph edges in recommendation systems through:
 - **Intent-Aware Denoising**: User intent-guided edge weight learning
-- **Collaborative Knowledge Distillation**: Student-teacher framework for robust KG denoising
+- **Collaborative Knowledge Distillation**: Student-teacher framework for KG denoising
 - **Relational Graph Attention**: RGAT-based knowledge graph propagation
 - **Contrastive Learning**: Multi-view self-supervised learning for enhanced representations
 
@@ -39,6 +39,8 @@ pip install PyYAML tqdm
 ├── datasets/              # Dataset directory
 │   └── kg/               # Knowledge graph datasets
 │       └── mooccube_kg/  # MOOCCube dataset
+|       └── coco_kg/  # COCO dataset
+|       └── mooper_kg/  # MOOPer dataset
 ├── models/                # Model implementations
 │   ├── iacd.py           # IACD model
 │   └── loss_utils.py     # Loss functions
@@ -47,40 +49,28 @@ pip install PyYAML tqdm
 │   ├── trainer.py        # Training loop
 │   ├── metrics.py        # Evaluation metrics
 │   └── logger.py         # Logging utilities
-├── main.py               # Main entry point
-└── requirements.txt      # Python dependencies
+└── main.py               # Main entry point
 ```
 
-## 📚 Datasets
+## 📚 Datasets Statistics
 
-We evaluate IACD on the MOOCCube dataset for course recommendation with educational knowledge graph.
+| Statistics | MOOCCube | MOOPer | COCO |
+|------------|----------|--------|------|
+| # Users | 34,917 | 28,702 | 24,036 |
+| # Courses | 698 | 233 | 8,196 |
+| # Interactions | 273,397 | 267,849 | 374,065 |
+| # Density | 98.88% | 95.99% | 99.81% |
+| **Knowledge Graph** | | | |
+| # Entities | 239,440 | 10,184 | 11,237 |
+| # Relations | 7 | 8 | 5 |
+| # Triplets | 739,344 | 26,315 | 104,983 |
 
-### MOOCCube Dataset Statistics
 
-| Metric | Count |
-|--------|-------|
-| Users | 34,917 |
-| Courses | 698 |
-| Interactions | 273,397 |
-| Sparsity | 98.85% |
-
-**Knowledge Graph Statistics:**
-
-| Entity Type | Count | Relation Type | Count |
-|-------------|-------|---------------|-------|
-| Users | 34,917 | course-video | 46,263 |
-| Courses | 698 | teacher-course | 2,329 |
-| Videos | 37,952 | school-course | 697 |
-| Schools | 150 | course-concept | 166,835 |
-| Concepts | 25,167 | video-concept | 319,911 |
-| Teachers | 1,721 | school-teacher | 1,902 |
-| Papers | 173,752 | concept-paper | 201,407 |
 
 ## 🚀 How to run the codes
 
 ### Training
 
-Train IACD on MOOCCube dataset:
 ```bash
 python main.py --model iacd
 ```
