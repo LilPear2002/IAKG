@@ -85,7 +85,10 @@ class Metric(object):
         return batch_rate
     
     def eval_at_one_forward(self, model, test_dataloader):
-        """Evaluate model with single forward pass (efficient for GNN models)"""
+        """Evaluate model with single forward pass (efficient for GNN models)
+        
+        支持 IACD 的个性化评分：每个用户根据自己的意图分布动态合成 item embedding
+        """
         result = {}
         for metric in self.metrics:
             result[metric] = np.zeros(len(self.k))
@@ -97,7 +100,16 @@ class Metric(object):
 
         # Generate all embeddings at once
         with torch.no_grad():
-            user_emb, item_emb = model.generate()
+            gen_output = model.generate()
+            
+            # 检查是否是 IACD 的四元组返回（个性化评分）
+            if isinstance(gen_output, tuple) and len(gen_output) == 4:
+                user_emb, item_struc_emb, kg_emb_stack, user_intent_attn = gen_output
+                use_personalized = True
+            else:
+                # 兼容其他模型的二元组返回
+                user_emb, item_emb = gen_output
+                use_personalized = False
 
         for _, tem in enumerate(test_dataloader):
             if not isinstance(tem, list):
@@ -108,9 +120,28 @@ class Metric(object):
             
             # Predict
             batch_u = batch_data[0]
-            batch_u_emb, all_i_emb = user_emb[batch_u], item_emb
+            
             with torch.no_grad():
-                batch_pred = model.rating(batch_u_emb, all_i_emb)
+                if use_personalized:
+                    # IACD 个性化评分
+                    u_emb_batch = user_emb[batch_u]  # [B, D]
+                    attn_batch = user_intent_attn[batch_u]  # [B, K]
+                    
+                    # 结构分数：user @ item_struc.T
+                    score_struc = torch.matmul(u_emb_batch, item_struc_emb.T)  # [B, N]
+                    
+                    # KG 个性化分数：对每个意图分支分别打分再聚合
+                    # kg_emb_stack: [K, N, D]
+                    score_kg = torch.stack([torch.matmul(u_emb_batch, kg_emb.T) 
+                                           for kg_emb in kg_emb_stack], dim=1)  # [B, K, N]
+                    score_personalized = (attn_batch.unsqueeze(-1) * score_kg).sum(dim=1)  # [B, N]
+                    
+                    batch_pred = score_struc + score_personalized
+                else:
+                    # 标准评分
+                    batch_u_emb, all_i_emb = user_emb[batch_u], item_emb
+                    batch_pred = model.rating(batch_u_emb, all_i_emb)
+                    
             test_user_count += batch_pred.shape[0]
             
             # Filter out history items

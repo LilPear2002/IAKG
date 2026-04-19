@@ -1,0 +1,274 @@
+2026-01-04 22:43:33,795 - {'optimizer': {'name': 'adam', 'lr': 0.001, 'weight_decay': 0}, 'train': {'epoch': 200, 'batch_size': 1024, 'save_model': False, 'loss': 'pairwise', 'test_step': 1, 'patience': 10, 'reproducible': True, 'seed': 2025, 'log_loss': True, 'early_stop': True}, 'test': {'metrics': ['recall', 'ndcg', 'hr'], 'k': [5, 10, 20], 'batch_size': 1024, 'eval_at_one_forward': True}, 'data': {'type': 'kg', 'name': 'mooper', 'dir': './datasets/kg/mooper_kg/', 'user_num': 28702, 'item_num': 233, 'entity_num': 10184, 'node_num': 38886, 'relation_num': 17, 'triplet_num': 46222}, 'model': {'name': 'iacd', 'embedding_size': 64, 'layer_num': 2, 'kg_layer_num': 2, 'intent_size': 4, 'reg_weight': 0.01, 'cl_weight': 0.01, 'temperature': 0.2}, 'tune': {'enable': False}, 'device': 'cuda'}
+2026-01-04 22:43:55,873 - [Epoch   0 / 200] bpr_loss: 0.2856 cl_loss: 5.1008 reg_loss: 0.0015 
+2026-01-04 22:43:58,332 - Epoch   0 Test set [recall@5: 0.5401 recall@10: 0.6313 recall@20: 0.7636 ] Test set [ndcg@5: 0.4549 ndcg@10: 0.4881 ndcg@20: 0.5259 ] Test set [hr@5: 0.6277 hr@10: 0.7231 hr@20: 0.8389 ] 
+2026-01-04 22:43:58,334 - Validation score increased. Copying the best model ...
+2026-01-04 22:44:19,708 - [Epoch   1 / 200] bpr_loss: 0.1593 cl_loss: 4.5628 reg_loss: 0.0052 
+2026-01-04 22:44:21,746 - Epoch   1 Test set [recall@5: 0.6037 recall@10: 0.7340 recall@20: 0.8542 ] Test set [ndcg@5: 0.5106 ndcg@10: 0.5581 ndcg@20: 0.5936 ] Test set [hr@5: 0.6975 hr@10: 0.8181 hr@20: 0.9074 ] 
+2026-01-04 22:44:21,747 - Validation score increased. Copying the best model ...
+2026-01-04 22:44:42,928 - [Epoch   2 / 200] bpr_loss: 0.1214 cl_loss: 4.2137 reg_loss: 0.0074 
+2026-01-04 22:44:45,009 - Epoch   2 Test set [recall@5: 0.6249 recall@10: 0.7507 recall@20: 0.8630 ] Test set [ndcg@5: 0.5317 ndcg@10: 0.5780 ndcg@20: 0.6114 ] Test set [hr@5: 0.7230 hr@10: 0.8318 hr@20: 0.9131 ] 
+2026-01-04 22:44:45,010 - Validation score increased. Copying the best model ...
+2026-01-04 22:45:05,862 - [Epoch   3 / 200] bpr_loss: 0.1104 cl_loss: 4.0293 reg_loss: 0.0084 
+2026-01-04 22:45:07,700 - Epoch   3 Test set [recall@5: 0.6397 recall@10: 0.7655 recall@20: 0.8724 ] Test set [ndcg@5: 0.5451 ndcg@10: 0.5916 ndcg@20: 0.6236 ] Test set [hr@5: 0.7366 hr@10: 0.8441 hr@20: 0.9194 ] 
+2026-01-04 22:45:07,701 - Validation score increased. Copying the best model ...
+2026-01-04 22:45:28,291 - [Epoch   4 / 200] bpr_loss: 0.1027 cl_loss: 3.9173 reg_loss: 0.0091 
+2026-01-04 22:45:30,188 - Epoch   4 Test set [recall@5: 0.6546 recall@10: 0.7816 recall@20: 0.8782 ] Test set [ndcg@5: 0.5622 ndcg@10: 0.6085 ndcg@20: 0.6375 ] Test set [hr@5: 0.7515 hr@10: 0.8561 hr@20: 0.9228 ] 
+2026-01-04 22:45:30,189 - Validation score increased. Copying the best model ...
+2026-01-04 22:45:51,158 - [Epoch   5 / 200] bpr_loss: 0.0940 cl_loss: 3.8550 reg_loss: 0.0098 
+2026-01-04 22:45:53,243 - Epoch   5 Test set [recall@5: 0.6679 recall@10: 0.7948 recall@20: 0.8876 ] Test set [ndcg@5: 0.5733 ndcg@10: 0.6200 ndcg@20: 0.6476 ] Test set [hr@5: 0.7610 hr@10: 0.8634 hr@20: 0.9279 ] 
+2026-01-04 22:45:53,244 - Validation score increased. Copying the best model ...
+2026-01-04 22:46:14,414 - [Epoch   6 / 200] bpr_loss: 0.0853 cl_loss: 3.8096 reg_loss: 0.0105 
+2026-01-04 22:46:16,429 - Epoch   6 Test set [recall@5: 0.6759 recall@10: 0.8029 recall@20: 0.8912 ] Test set [ndcg@5: 0.5851 ndcg@10: 0.6317 ndcg@20: 0.6580 ] Test set [hr@5: 0.7692 hr@10: 0.8689 hr@20: 0.9292 ] 
+2026-01-04 22:46:16,431 - Validation score increased. Copying the best model ...
+2026-01-04 22:46:38,156 - [Epoch   7 / 200] bpr_loss: 0.0807 cl_loss: 3.7653 reg_loss: 0.0109 
+2026-01-04 22:46:41,175 - Epoch   7 Test set [recall@5: 0.6851 recall@10: 0.8070 recall@20: 0.8976 ] Test set [ndcg@5: 0.5917 ndcg@10: 0.6365 ndcg@20: 0.6635 ] Test set [hr@5: 0.7748 hr@10: 0.8721 hr@20: 0.9347 ] 
+2026-01-04 22:46:41,176 - Validation score increased. Copying the best model ...
+2026-01-04 22:47:04,290 - [Epoch   8 / 200] bpr_loss: 0.0768 cl_loss: 3.7289 reg_loss: 0.0112 
+2026-01-04 22:47:07,313 - Epoch   8 Test set [recall@5: 0.6939 recall@10: 0.8100 recall@20: 0.9002 ] Test set [ndcg@5: 0.6036 ndcg@10: 0.6463 ndcg@20: 0.6732 ] Test set [hr@5: 0.7841 hr@10: 0.8761 hr@20: 0.9369 ] 
+2026-01-04 22:47:07,314 - Validation score increased. Copying the best model ...
+2026-01-04 22:47:30,490 - [Epoch   9 / 200] bpr_loss: 0.0741 cl_loss: 3.7015 reg_loss: 0.0115 
+2026-01-04 22:47:33,162 - Epoch   9 Test set [recall@5: 0.6960 recall@10: 0.8143 recall@20: 0.9034 ] Test set [ndcg@5: 0.6034 ndcg@10: 0.6468 ndcg@20: 0.6733 ] Test set [hr@5: 0.7857 hr@10: 0.8771 hr@20: 0.9382 ] 
+2026-01-04 22:47:33,163 - Validation score increased. Copying the best model ...
+2026-01-04 22:47:56,513 - [Epoch  10 / 200] bpr_loss: 0.0720 cl_loss: 3.6770 reg_loss: 0.0117 
+2026-01-04 22:47:59,104 - Epoch  10 Test set [recall@5: 0.6983 recall@10: 0.8156 recall@20: 0.9057 ] Test set [ndcg@5: 0.6049 ndcg@10: 0.6482 ndcg@20: 0.6749 ] Test set [hr@5: 0.7875 hr@10: 0.8787 hr@20: 0.9401 ] 
+2026-01-04 22:47:59,104 - Validation score increased. Copying the best model ...
+2026-01-04 22:48:22,177 - [Epoch  11 / 200] bpr_loss: 0.0699 cl_loss: 3.6575 reg_loss: 0.0120 
+2026-01-04 22:48:24,856 - Epoch  11 Test set [recall@5: 0.7087 recall@10: 0.8195 recall@20: 0.9074 ] Test set [ndcg@5: 0.6199 ndcg@10: 0.6611 ndcg@20: 0.6874 ] Test set [hr@5: 0.7983 hr@10: 0.8810 hr@20: 0.9402 ] 
+2026-01-04 22:48:24,857 - Validation score increased. Copying the best model ...
+2026-01-04 22:48:47,821 - [Epoch  12 / 200] bpr_loss: 0.0674 cl_loss: 3.6401 reg_loss: 0.0122 
+2026-01-04 22:48:50,508 - Epoch  12 Test set [recall@5: 0.7116 recall@10: 0.8235 recall@20: 0.9100 ] Test set [ndcg@5: 0.6240 ndcg@10: 0.6652 ndcg@20: 0.6910 ] Test set [hr@5: 0.7976 hr@10: 0.8841 hr@20: 0.9425 ] 
+2026-01-04 22:48:50,509 - Validation score increased. Copying the best model ...
+2026-01-04 22:49:13,644 - [Epoch  13 / 200] bpr_loss: 0.0662 cl_loss: 3.6280 reg_loss: 0.0125 
+2026-01-04 22:49:16,420 - Epoch  13 Test set [recall@5: 0.7163 recall@10: 0.8275 recall@20: 0.9129 ] Test set [ndcg@5: 0.6292 ndcg@10: 0.6704 ndcg@20: 0.6960 ] Test set [hr@5: 0.8035 hr@10: 0.8877 hr@20: 0.9446 ] 
+2026-01-04 22:49:16,421 - Validation score increased. Copying the best model ...
+2026-01-04 22:49:38,354 - [Epoch  14 / 200] bpr_loss: 0.0639 cl_loss: 3.6124 reg_loss: 0.0127 
+2026-01-04 22:49:40,592 - Epoch  14 Test set [recall@5: 0.7183 recall@10: 0.8299 recall@20: 0.9123 ] Test set [ndcg@5: 0.6277 ndcg@10: 0.6690 ndcg@20: 0.6937 ] Test set [hr@5: 0.8064 hr@10: 0.8891 hr@20: 0.9439 ] 
+2026-01-04 22:49:40,593 - Validation score increased. Copying the best model ...
+2026-01-04 22:50:02,205 - [Epoch  15 / 200] bpr_loss: 0.0621 cl_loss: 3.5990 reg_loss: 0.0129 
+2026-01-04 22:50:04,605 - Epoch  15 Test set [recall@5: 0.7230 recall@10: 0.8347 recall@20: 0.9149 ] Test set [ndcg@5: 0.6351 ndcg@10: 0.6763 ndcg@20: 0.7005 ] Test set [hr@5: 0.8096 hr@10: 0.8932 hr@20: 0.9456 ] 
+2026-01-04 22:50:04,608 - Validation score increased. Copying the best model ...
+2026-01-04 22:50:26,765 - [Epoch  16 / 200] bpr_loss: 0.0603 cl_loss: 3.5888 reg_loss: 0.0131 
+2026-01-04 22:50:28,970 - Epoch  16 Test set [recall@5: 0.7247 recall@10: 0.8360 recall@20: 0.9164 ] Test set [ndcg@5: 0.6399 ndcg@10: 0.6812 ndcg@20: 0.7054 ] Test set [hr@5: 0.8118 hr@10: 0.8935 hr@20: 0.9467 ] 
+2026-01-04 22:50:28,971 - Validation score increased. Copying the best model ...
+2026-01-04 22:50:50,858 - [Epoch  17 / 200] bpr_loss: 0.0604 cl_loss: 3.5782 reg_loss: 0.0134 
+2026-01-04 22:50:54,270 - Epoch  17 Test set [recall@5: 0.7313 recall@10: 0.8389 recall@20: 0.9173 ] Test set [ndcg@5: 0.6446 ndcg@10: 0.6844 ndcg@20: 0.7081 ] Test set [hr@5: 0.8178 hr@10: 0.8972 hr@20: 0.9476 ] 
+2026-01-04 22:50:54,271 - Validation score increased. Copying the best model ...
+2026-01-04 22:51:15,841 - [Epoch  18 / 200] bpr_loss: 0.0584 cl_loss: 3.5684 reg_loss: 0.0136 
+2026-01-04 22:51:18,652 - Epoch  18 Test set [recall@5: 0.7350 recall@10: 0.8432 recall@20: 0.9179 ] Test set [ndcg@5: 0.6463 ndcg@10: 0.6865 ndcg@20: 0.7091 ] Test set [hr@5: 0.8202 hr@10: 0.8993 hr@20: 0.9475 ] 
+2026-01-04 22:51:18,653 - Validation score increased. Copying the best model ...
+2026-01-04 22:51:40,276 - [Epoch  19 / 200] bpr_loss: 0.0579 cl_loss: 3.5572 reg_loss: 0.0138 
+2026-01-04 22:51:42,492 - Epoch  19 Test set [recall@5: 0.7350 recall@10: 0.8448 recall@20: 0.9176 ] Test set [ndcg@5: 0.6470 ndcg@10: 0.6879 ndcg@20: 0.7098 ] Test set [hr@5: 0.8205 hr@10: 0.9001 hr@20: 0.9477 ] 
+2026-01-04 22:51:42,493 - Early stop counter: 1 out of 10
+2026-01-04 22:52:04,380 - [Epoch  20 / 200] bpr_loss: 0.0567 cl_loss: 3.5468 reg_loss: 0.0140 
+2026-01-04 22:52:06,688 - Epoch  20 Test set [recall@5: 0.7386 recall@10: 0.8455 recall@20: 0.9203 ] Test set [ndcg@5: 0.6482 ndcg@10: 0.6880 ndcg@20: 0.7107 ] Test set [hr@5: 0.8242 hr@10: 0.9006 hr@20: 0.9493 ] 
+2026-01-04 22:52:06,689 - Validation score increased. Copying the best model ...
+2026-01-04 22:52:28,055 - [Epoch  21 / 200] bpr_loss: 0.0555 cl_loss: 3.5370 reg_loss: 0.0142 
+2026-01-04 22:52:30,404 - Epoch  21 Test set [recall@5: 0.7404 recall@10: 0.8486 recall@20: 0.9226 ] Test set [ndcg@5: 0.6562 ndcg@10: 0.6964 ndcg@20: 0.7186 ] Test set [hr@5: 0.8239 hr@10: 0.9023 hr@20: 0.9508 ] 
+2026-01-04 22:52:30,405 - Validation score increased. Copying the best model ...
+2026-01-04 22:52:52,162 - [Epoch  22 / 200] bpr_loss: 0.0543 cl_loss: 3.5194 reg_loss: 0.0144 
+2026-01-04 22:52:54,675 - Epoch  22 Test set [recall@5: 0.7413 recall@10: 0.8483 recall@20: 0.9213 ] Test set [ndcg@5: 0.6573 ndcg@10: 0.6970 ndcg@20: 0.7191 ] Test set [hr@5: 0.8253 hr@10: 0.9023 hr@20: 0.9493 ] 
+2026-01-04 22:52:54,675 - Validation score increased. Copying the best model ...
+2026-01-04 22:53:15,955 - [Epoch  23 / 200] bpr_loss: 0.0538 cl_loss: 3.5077 reg_loss: 0.0145 
+2026-01-04 22:53:18,164 - Epoch  23 Test set [recall@5: 0.7510 recall@10: 0.8528 recall@20: 0.9242 ] Test set [ndcg@5: 0.6607 ndcg@10: 0.6987 ndcg@20: 0.7202 ] Test set [hr@5: 0.8334 hr@10: 0.9066 hr@20: 0.9521 ] 
+2026-01-04 22:53:18,165 - Validation score increased. Copying the best model ...
+2026-01-04 22:53:39,627 - [Epoch  24 / 200] bpr_loss: 0.0523 cl_loss: 3.4982 reg_loss: 0.0147 
+2026-01-04 22:53:42,870 - Epoch  24 Test set [recall@5: 0.7475 recall@10: 0.8549 recall@20: 0.9246 ] Test set [ndcg@5: 0.6585 ndcg@10: 0.6984 ndcg@20: 0.7195 ] Test set [hr@5: 0.8301 hr@10: 0.9081 hr@20: 0.9520 ] 
+2026-01-04 22:53:42,870 - Early stop counter: 1 out of 10
+2026-01-04 22:54:04,256 - [Epoch  25 / 200] bpr_loss: 0.0520 cl_loss: 3.4892 reg_loss: 0.0149 
+2026-01-04 22:54:06,792 - Epoch  25 Test set [recall@5: 0.7505 recall@10: 0.8555 recall@20: 0.9251 ] Test set [ndcg@5: 0.6621 ndcg@10: 0.7012 ndcg@20: 0.7223 ] Test set [hr@5: 0.8335 hr@10: 0.9079 hr@20: 0.9521 ] 
+2026-01-04 22:54:06,792 - Early stop counter: 2 out of 10
+2026-01-04 22:54:29,183 - [Epoch  26 / 200] bpr_loss: 0.0511 cl_loss: 3.4826 reg_loss: 0.0151 
+2026-01-04 22:54:31,485 - Epoch  26 Test set [recall@5: 0.7531 recall@10: 0.8583 recall@20: 0.9244 ] Test set [ndcg@5: 0.6666 ndcg@10: 0.7056 ndcg@20: 0.7255 ] Test set [hr@5: 0.8337 hr@10: 0.9091 hr@20: 0.9519 ] 
+2026-01-04 22:54:31,486 - Validation score increased. Copying the best model ...
+2026-01-04 22:54:52,873 - [Epoch  27 / 200] bpr_loss: 0.0503 cl_loss: 3.4730 reg_loss: 0.0152 
+2026-01-04 22:54:55,367 - Epoch  27 Test set [recall@5: 0.7524 recall@10: 0.8595 recall@20: 0.9263 ] Test set [ndcg@5: 0.6641 ndcg@10: 0.7040 ndcg@20: 0.7242 ] Test set [hr@5: 0.8349 hr@10: 0.9093 hr@20: 0.9522 ] 
+2026-01-04 22:54:55,368 - Early stop counter: 1 out of 10
+2026-01-04 22:55:16,835 - [Epoch  28 / 200] bpr_loss: 0.0501 cl_loss: 3.4675 reg_loss: 0.0154 
+2026-01-04 22:55:19,301 - Epoch  28 Test set [recall@5: 0.7590 recall@10: 0.8602 recall@20: 0.9286 ] Test set [ndcg@5: 0.6718 ndcg@10: 0.7096 ndcg@20: 0.7301 ] Test set [hr@5: 0.8398 hr@10: 0.9104 hr@20: 0.9550 ] 
+2026-01-04 22:55:19,302 - Validation score increased. Copying the best model ...
+2026-01-04 22:55:40,808 - [Epoch  29 / 200] bpr_loss: 0.0494 cl_loss: 3.4615 reg_loss: 0.0155 
+2026-01-04 22:55:43,203 - Epoch  29 Test set [recall@5: 0.7591 recall@10: 0.8583 recall@20: 0.9279 ] Test set [ndcg@5: 0.6710 ndcg@10: 0.7081 ndcg@20: 0.7290 ] Test set [hr@5: 0.8416 hr@10: 0.9100 hr@20: 0.9551 ] 
+2026-01-04 22:55:43,205 - Validation score increased. Copying the best model ...
+2026-01-04 22:56:05,091 - [Epoch  30 / 200] bpr_loss: 0.0492 cl_loss: 3.4555 reg_loss: 0.0157 
+2026-01-04 22:56:07,160 - Epoch  30 Test set [recall@5: 0.7634 recall@10: 0.8627 recall@20: 0.9289 ] Test set [ndcg@5: 0.6723 ndcg@10: 0.7094 ndcg@20: 0.7293 ] Test set [hr@5: 0.8446 hr@10: 0.9127 hr@20: 0.9556 ] 
+2026-01-04 22:56:07,162 - Validation score increased. Copying the best model ...
+2026-01-04 22:56:28,198 - [Epoch  31 / 200] bpr_loss: 0.0482 cl_loss: 3.4462 reg_loss: 0.0159 
+2026-01-04 22:56:30,550 - Epoch  31 Test set [recall@5: 0.7618 recall@10: 0.8616 recall@20: 0.9300 ] Test set [ndcg@5: 0.6738 ndcg@10: 0.7111 ndcg@20: 0.7315 ] Test set [hr@5: 0.8413 hr@10: 0.9108 hr@20: 0.9563 ] 
+2026-01-04 22:56:30,550 - Early stop counter: 1 out of 10
+2026-01-04 22:56:51,299 - [Epoch  32 / 200] bpr_loss: 0.0480 cl_loss: 3.4419 reg_loss: 0.0160 
+2026-01-04 22:56:53,459 - Epoch  32 Test set [recall@5: 0.7631 recall@10: 0.8627 recall@20: 0.9306 ] Test set [ndcg@5: 0.6741 ndcg@10: 0.7112 ndcg@20: 0.7316 ] Test set [hr@5: 0.8419 hr@10: 0.9117 hr@20: 0.9565 ] 
+2026-01-04 22:56:53,459 - Early stop counter: 2 out of 10
+2026-01-04 22:57:14,956 - [Epoch  33 / 200] bpr_loss: 0.0467 cl_loss: 3.4355 reg_loss: 0.0162 
+2026-01-04 22:57:17,192 - Epoch  33 Test set [recall@5: 0.7666 recall@10: 0.8652 recall@20: 0.9315 ] Test set [ndcg@5: 0.6746 ndcg@10: 0.7114 ndcg@20: 0.7313 ] Test set [hr@5: 0.8459 hr@10: 0.9143 hr@20: 0.9570 ] 
+2026-01-04 22:57:17,194 - Validation score increased. Copying the best model ...
+2026-01-04 22:57:39,317 - [Epoch  34 / 200] bpr_loss: 0.0461 cl_loss: 3.4296 reg_loss: 0.0163 
+2026-01-04 22:57:41,604 - Epoch  34 Test set [recall@5: 0.7674 recall@10: 0.8670 recall@20: 0.9304 ] Test set [ndcg@5: 0.6785 ndcg@10: 0.7155 ndcg@20: 0.7347 ] Test set [hr@5: 0.8456 hr@10: 0.9152 hr@20: 0.9559 ] 
+2026-01-04 22:57:41,605 - Validation score increased. Copying the best model ...
+2026-01-04 22:58:03,671 - [Epoch  35 / 200] bpr_loss: 0.0456 cl_loss: 3.4196 reg_loss: 0.0164 
+2026-01-04 22:58:06,211 - Epoch  35 Test set [recall@5: 0.7664 recall@10: 0.8662 recall@20: 0.9305 ] Test set [ndcg@5: 0.6767 ndcg@10: 0.7141 ndcg@20: 0.7333 ] Test set [hr@5: 0.8460 hr@10: 0.9132 hr@20: 0.9561 ] 
+2026-01-04 22:58:06,211 - Early stop counter: 1 out of 10
+2026-01-04 22:58:28,268 - [Epoch  36 / 200] bpr_loss: 0.0460 cl_loss: 3.4195 reg_loss: 0.0165 
+2026-01-04 22:58:30,713 - Epoch  36 Test set [recall@5: 0.7692 recall@10: 0.8692 recall@20: 0.9316 ] Test set [ndcg@5: 0.6828 ndcg@10: 0.7201 ndcg@20: 0.7389 ] Test set [hr@5: 0.8473 hr@10: 0.9173 hr@20: 0.9570 ] 
+2026-01-04 22:58:30,713 - Validation score increased. Copying the best model ...
+2026-01-04 22:58:52,438 - [Epoch  37 / 200] bpr_loss: 0.0446 cl_loss: 3.4142 reg_loss: 0.0167 
+2026-01-04 22:58:54,577 - Epoch  37 Test set [recall@5: 0.7731 recall@10: 0.8672 recall@20: 0.9314 ] Test set [ndcg@5: 0.6850 ndcg@10: 0.7202 ndcg@20: 0.7395 ] Test set [hr@5: 0.8505 hr@10: 0.9156 hr@20: 0.9571 ] 
+2026-01-04 22:58:54,578 - Validation score increased. Copying the best model ...
+2026-01-04 22:59:16,395 - [Epoch  38 / 200] bpr_loss: 0.0442 cl_loss: 3.4068 reg_loss: 0.0168 
+2026-01-04 22:59:18,835 - Epoch  38 Test set [recall@5: 0.7716 recall@10: 0.8681 recall@20: 0.9313 ] Test set [ndcg@5: 0.6818 ndcg@10: 0.7178 ndcg@20: 0.7369 ] Test set [hr@5: 0.8485 hr@10: 0.9161 hr@20: 0.9563 ] 
+2026-01-04 22:59:18,835 - Early stop counter: 1 out of 10
+2026-01-04 22:59:40,410 - [Epoch  39 / 200] bpr_loss: 0.0448 cl_loss: 3.4044 reg_loss: 0.0169 
+2026-01-04 22:59:42,494 - Epoch  39 Test set [recall@5: 0.7747 recall@10: 0.8705 recall@20: 0.9318 ] Test set [ndcg@5: 0.6840 ndcg@10: 0.7198 ndcg@20: 0.7382 ] Test set [hr@5: 0.8521 hr@10: 0.9172 hr@20: 0.9569 ] 
+2026-01-04 22:59:42,495 - Validation score increased. Copying the best model ...
+2026-01-04 23:00:03,794 - [Epoch  40 / 200] bpr_loss: 0.0439 cl_loss: 3.3980 reg_loss: 0.0170 
+2026-01-04 23:00:06,301 - Epoch  40 Test set [recall@5: 0.7718 recall@10: 0.8712 recall@20: 0.9331 ] Test set [ndcg@5: 0.6858 ndcg@10: 0.7229 ndcg@20: 0.7416 ] Test set [hr@5: 0.8501 hr@10: 0.9192 hr@20: 0.9578 ] 
+2026-01-04 23:00:06,301 - Early stop counter: 1 out of 10
+2026-01-04 23:00:27,880 - [Epoch  41 / 200] bpr_loss: 0.0439 cl_loss: 3.3973 reg_loss: 0.0171 
+2026-01-04 23:00:30,039 - Epoch  41 Test set [recall@5: 0.7723 recall@10: 0.8717 recall@20: 0.9334 ] Test set [ndcg@5: 0.6834 ndcg@10: 0.7205 ndcg@20: 0.7392 ] Test set [hr@5: 0.8490 hr@10: 0.9190 hr@20: 0.9581 ] 
+2026-01-04 23:00:30,040 - Early stop counter: 2 out of 10
+2026-01-04 23:00:50,619 - [Epoch  42 / 200] bpr_loss: 0.0428 cl_loss: 3.3921 reg_loss: 0.0172 
+2026-01-04 23:00:52,851 - Epoch  42 Test set [recall@5: 0.7765 recall@10: 0.8727 recall@20: 0.9336 ] Test set [ndcg@5: 0.6869 ndcg@10: 0.7228 ndcg@20: 0.7412 ] Test set [hr@5: 0.8527 hr@10: 0.9198 hr@20: 0.9581 ] 
+2026-01-04 23:00:52,852 - Validation score increased. Copying the best model ...
+2026-01-04 23:01:14,444 - [Epoch  43 / 200] bpr_loss: 0.0437 cl_loss: 3.3858 reg_loss: 0.0173 
+2026-01-04 23:01:16,647 - Epoch  43 Test set [recall@5: 0.7781 recall@10: 0.8739 recall@20: 0.9339 ] Test set [ndcg@5: 0.6920 ndcg@10: 0.7278 ndcg@20: 0.7458 ] Test set [hr@5: 0.8538 hr@10: 0.9198 hr@20: 0.9581 ] 
+2026-01-04 23:01:16,648 - Validation score increased. Copying the best model ...
+2026-01-04 23:01:38,216 - [Epoch  44 / 200] bpr_loss: 0.0426 cl_loss: 3.3813 reg_loss: 0.0174 
+2026-01-04 23:01:40,473 - Epoch  44 Test set [recall@5: 0.7747 recall@10: 0.8741 recall@20: 0.9338 ] Test set [ndcg@5: 0.6882 ndcg@10: 0.7253 ndcg@20: 0.7433 ] Test set [hr@5: 0.8516 hr@10: 0.9201 hr@20: 0.9584 ] 
+2026-01-04 23:01:40,474 - Early stop counter: 1 out of 10
+2026-01-04 23:02:02,121 - [Epoch  45 / 200] bpr_loss: 0.0412 cl_loss: 3.3788 reg_loss: 0.0176 
+2026-01-04 23:02:04,356 - Epoch  45 Test set [recall@5: 0.7805 recall@10: 0.8759 recall@20: 0.9342 ] Test set [ndcg@5: 0.6906 ndcg@10: 0.7262 ndcg@20: 0.7438 ] Test set [hr@5: 0.8566 hr@10: 0.9224 hr@20: 0.9589 ] 
+2026-01-04 23:02:04,357 - Validation score increased. Copying the best model ...
+2026-01-04 23:02:25,972 - [Epoch  46 / 200] bpr_loss: 0.0422 cl_loss: 3.3751 reg_loss: 0.0176 
+2026-01-04 23:02:28,193 - Epoch  46 Test set [recall@5: 0.7789 recall@10: 0.8759 recall@20: 0.9351 ] Test set [ndcg@5: 0.6923 ndcg@10: 0.7285 ndcg@20: 0.7463 ] Test set [hr@5: 0.8544 hr@10: 0.9209 hr@20: 0.9594 ] 
+2026-01-04 23:02:28,193 - Early stop counter: 1 out of 10
+2026-01-04 23:02:49,803 - [Epoch  47 / 200] bpr_loss: 0.0419 cl_loss: 3.3720 reg_loss: 0.0177 
+2026-01-04 23:02:52,090 - Epoch  47 Test set [recall@5: 0.7793 recall@10: 0.8769 recall@20: 0.9356 ] Test set [ndcg@5: 0.6905 ndcg@10: 0.7268 ndcg@20: 0.7444 ] Test set [hr@5: 0.8540 hr@10: 0.9220 hr@20: 0.9598 ] 
+2026-01-04 23:02:52,090 - Early stop counter: 2 out of 10
+2026-01-04 23:03:14,014 - [Epoch  48 / 200] bpr_loss: 0.0418 cl_loss: 3.3685 reg_loss: 0.0178 
+2026-01-04 23:03:16,265 - Epoch  48 Test set [recall@5: 0.7807 recall@10: 0.8750 recall@20: 0.9358 ] Test set [ndcg@5: 0.6907 ndcg@10: 0.7259 ndcg@20: 0.7441 ] Test set [hr@5: 0.8549 hr@10: 0.9196 hr@20: 0.9594 ] 
+2026-01-04 23:03:16,267 - Validation score increased. Copying the best model ...
+2026-01-04 23:03:37,805 - [Epoch  49 / 200] bpr_loss: 0.0411 cl_loss: 3.3660 reg_loss: 0.0179 
+2026-01-04 23:03:40,119 - Epoch  49 Test set [recall@5: 0.7799 recall@10: 0.8753 recall@20: 0.9357 ] Test set [ndcg@5: 0.6903 ndcg@10: 0.7258 ndcg@20: 0.7440 ] Test set [hr@5: 0.8558 hr@10: 0.9211 hr@20: 0.9594 ] 
+2026-01-04 23:03:40,120 - Early stop counter: 1 out of 10
+2026-01-04 23:04:02,004 - [Epoch  50 / 200] bpr_loss: 0.0407 cl_loss: 3.3631 reg_loss: 0.0180 
+2026-01-04 23:04:04,308 - Epoch  50 Test set [recall@5: 0.7837 recall@10: 0.8779 recall@20: 0.9370 ] Test set [ndcg@5: 0.6973 ndcg@10: 0.7324 ndcg@20: 0.7501 ] Test set [hr@5: 0.8583 hr@10: 0.9225 hr@20: 0.9609 ] 
+2026-01-04 23:04:04,310 - Validation score increased. Copying the best model ...
+2026-01-04 23:04:26,006 - [Epoch  51 / 200] bpr_loss: 0.0408 cl_loss: 3.3579 reg_loss: 0.0181 
+2026-01-04 23:04:28,266 - Epoch  51 Test set [recall@5: 0.7843 recall@10: 0.8784 recall@20: 0.9378 ] Test set [ndcg@5: 0.6953 ndcg@10: 0.7306 ndcg@20: 0.7483 ] Test set [hr@5: 0.8591 hr@10: 0.9223 hr@20: 0.9606 ] 
+2026-01-04 23:04:28,267 - Validation score increased. Copying the best model ...
+2026-01-04 23:04:50,338 - [Epoch  52 / 200] bpr_loss: 0.0399 cl_loss: 3.3556 reg_loss: 0.0182 
+2026-01-04 23:04:53,811 - Epoch  52 Test set [recall@5: 0.7811 recall@10: 0.8775 recall@20: 0.9360 ] Test set [ndcg@5: 0.6935 ndcg@10: 0.7295 ndcg@20: 0.7470 ] Test set [hr@5: 0.8559 hr@10: 0.9221 hr@20: 0.9599 ] 
+2026-01-04 23:04:53,811 - Early stop counter: 1 out of 10
+2026-01-04 23:05:15,859 - [Epoch  53 / 200] bpr_loss: 0.0403 cl_loss: 3.3554 reg_loss: 0.0183 
+2026-01-04 23:05:18,071 - Epoch  53 Test set [recall@5: 0.7842 recall@10: 0.8788 recall@20: 0.9361 ] Test set [ndcg@5: 0.6985 ndcg@10: 0.7337 ndcg@20: 0.7510 ] Test set [hr@5: 0.8594 hr@10: 0.9239 hr@20: 0.9598 ] 
+2026-01-04 23:05:18,071 - Early stop counter: 2 out of 10
+2026-01-04 23:05:39,976 - [Epoch  54 / 200] bpr_loss: 0.0397 cl_loss: 3.3509 reg_loss: 0.0183 
+2026-01-04 23:05:42,688 - Epoch  54 Test set [recall@5: 0.7840 recall@10: 0.8780 recall@20: 0.9368 ] Test set [ndcg@5: 0.6952 ndcg@10: 0.7302 ndcg@20: 0.7480 ] Test set [hr@5: 0.8591 hr@10: 0.9238 hr@20: 0.9606 ] 
+2026-01-04 23:05:42,689 - Early stop counter: 3 out of 10
+2026-01-04 23:06:04,559 - [Epoch  55 / 200] bpr_loss: 0.0394 cl_loss: 3.3469 reg_loss: 0.0184 
+2026-01-04 23:06:06,734 - Epoch  55 Test set [recall@5: 0.7880 recall@10: 0.8787 recall@20: 0.9365 ] Test set [ndcg@5: 0.6976 ndcg@10: 0.7315 ndcg@20: 0.7489 ] Test set [hr@5: 0.8618 hr@10: 0.9227 hr@20: 0.9600 ] 
+2026-01-04 23:06:06,736 - Validation score increased. Copying the best model ...
+2026-01-04 23:06:28,323 - [Epoch  56 / 200] bpr_loss: 0.0400 cl_loss: 3.3476 reg_loss: 0.0185 
+2026-01-04 23:06:30,898 - Epoch  56 Test set [recall@5: 0.7855 recall@10: 0.8791 recall@20: 0.9362 ] Test set [ndcg@5: 0.6973 ndcg@10: 0.7321 ndcg@20: 0.7493 ] Test set [hr@5: 0.8595 hr@10: 0.9232 hr@20: 0.9598 ] 
+2026-01-04 23:06:30,898 - Early stop counter: 1 out of 10
+2026-01-04 23:06:52,426 - [Epoch  57 / 200] bpr_loss: 0.0388 cl_loss: 3.3461 reg_loss: 0.0186 
+2026-01-04 23:06:54,943 - Epoch  57 Test set [recall@5: 0.7896 recall@10: 0.8823 recall@20: 0.9382 ] Test set [ndcg@5: 0.7032 ndcg@10: 0.7377 ndcg@20: 0.7546 ] Test set [hr@5: 0.8628 hr@10: 0.9256 hr@20: 0.9615 ] 
+2026-01-04 23:06:54,944 - Validation score increased. Copying the best model ...
+2026-01-04 23:07:16,186 - [Epoch  58 / 200] bpr_loss: 0.0387 cl_loss: 3.3417 reg_loss: 0.0187 
+2026-01-04 23:07:18,374 - Epoch  58 Test set [recall@5: 0.7872 recall@10: 0.8805 recall@20: 0.9377 ] Test set [ndcg@5: 0.6943 ndcg@10: 0.7292 ndcg@20: 0.7464 ] Test set [hr@5: 0.8613 hr@10: 0.9239 hr@20: 0.9611 ] 
+2026-01-04 23:07:18,375 - Early stop counter: 1 out of 10
+2026-01-04 23:07:39,509 - [Epoch  59 / 200] bpr_loss: 0.0392 cl_loss: 3.3408 reg_loss: 0.0187 
+2026-01-04 23:07:41,599 - Epoch  59 Test set [recall@5: 0.7908 recall@10: 0.8816 recall@20: 0.9388 ] Test set [ndcg@5: 0.7034 ndcg@10: 0.7374 ndcg@20: 0.7546 ] Test set [hr@5: 0.8642 hr@10: 0.9256 hr@20: 0.9622 ] 
+2026-01-04 23:07:41,600 - Validation score increased. Copying the best model ...
+2026-01-04 23:08:02,403 - [Epoch  60 / 200] bpr_loss: 0.0379 cl_loss: 3.3391 reg_loss: 0.0188 
+2026-01-04 23:08:04,474 - Epoch  60 Test set [recall@5: 0.7879 recall@10: 0.8816 recall@20: 0.9393 ] Test set [ndcg@5: 0.7007 ndcg@10: 0.7357 ndcg@20: 0.7530 ] Test set [hr@5: 0.8612 hr@10: 0.9250 hr@20: 0.9624 ] 
+2026-01-04 23:08:04,474 - Early stop counter: 1 out of 10
+2026-01-04 23:08:25,170 - [Epoch  61 / 200] bpr_loss: 0.0382 cl_loss: 3.3367 reg_loss: 0.0189 
+2026-01-04 23:08:27,135 - Epoch  61 Test set [recall@5: 0.7887 recall@10: 0.8808 recall@20: 0.9391 ] Test set [ndcg@5: 0.6981 ndcg@10: 0.7326 ndcg@20: 0.7500 ] Test set [hr@5: 0.8622 hr@10: 0.9245 hr@20: 0.9620 ] 
+2026-01-04 23:08:27,136 - Early stop counter: 2 out of 10
+2026-01-04 23:08:48,066 - [Epoch  62 / 200] bpr_loss: 0.0385 cl_loss: 3.3365 reg_loss: 0.0189 
+2026-01-04 23:08:50,213 - Epoch  62 Test set [recall@5: 0.7920 recall@10: 0.8827 recall@20: 0.9385 ] Test set [ndcg@5: 0.7017 ndcg@10: 0.7357 ndcg@20: 0.7524 ] Test set [hr@5: 0.8650 hr@10: 0.9256 hr@20: 0.9618 ] 
+2026-01-04 23:08:50,214 - Validation score increased. Copying the best model ...
+2026-01-04 23:09:11,837 - [Epoch  63 / 200] bpr_loss: 0.0375 cl_loss: 3.3341 reg_loss: 0.0190 
+2026-01-04 23:09:14,573 - Epoch  63 Test set [recall@5: 0.7909 recall@10: 0.8838 recall@20: 0.9388 ] Test set [ndcg@5: 0.7021 ndcg@10: 0.7371 ndcg@20: 0.7536 ] Test set [hr@5: 0.8662 hr@10: 0.9263 hr@20: 0.9614 ] 
+2026-01-04 23:09:14,573 - Early stop counter: 1 out of 10
+2026-01-04 23:09:36,893 - [Epoch  64 / 200] bpr_loss: 0.0377 cl_loss: 3.3312 reg_loss: 0.0190 
+2026-01-04 23:09:39,077 - Epoch  64 Test set [recall@5: 0.7904 recall@10: 0.8823 recall@20: 0.9392 ] Test set [ndcg@5: 0.7023 ndcg@10: 0.7368 ndcg@20: 0.7539 ] Test set [hr@5: 0.8643 hr@10: 0.9255 hr@20: 0.9619 ] 
+2026-01-04 23:09:39,078 - Early stop counter: 2 out of 10
+2026-01-04 23:10:00,673 - [Epoch  65 / 200] bpr_loss: 0.0379 cl_loss: 3.3316 reg_loss: 0.0191 
+2026-01-04 23:10:03,186 - Epoch  65 Test set [recall@5: 0.7920 recall@10: 0.8839 recall@20: 0.9396 ] Test set [ndcg@5: 0.7054 ndcg@10: 0.7398 ndcg@20: 0.7566 ] Test set [hr@5: 0.8668 hr@10: 0.9270 hr@20: 0.9623 ] 
+2026-01-04 23:10:03,187 - Validation score increased. Copying the best model ...
+2026-01-04 23:10:24,710 - [Epoch  66 / 200] bpr_loss: 0.0377 cl_loss: 3.3301 reg_loss: 0.0191 
+2026-01-04 23:10:26,918 - Epoch  66 Test set [recall@5: 0.7914 recall@10: 0.8836 recall@20: 0.9392 ] Test set [ndcg@5: 0.7045 ndcg@10: 0.7388 ndcg@20: 0.7554 ] Test set [hr@5: 0.8631 hr@10: 0.9251 hr@20: 0.9623 ] 
+2026-01-04 23:10:26,918 - Early stop counter: 1 out of 10
+2026-01-04 23:10:48,650 - [Epoch  67 / 200] bpr_loss: 0.0368 cl_loss: 3.3240 reg_loss: 0.0192 
+2026-01-04 23:10:50,986 - Epoch  67 Test set [recall@5: 0.7924 recall@10: 0.8829 recall@20: 0.9392 ] Test set [ndcg@5: 0.7068 ndcg@10: 0.7407 ndcg@20: 0.7576 ] Test set [hr@5: 0.8647 hr@10: 0.9248 hr@20: 0.9615 ] 
+2026-01-04 23:10:50,986 - Validation score increased. Copying the best model ...
+2026-01-04 23:11:12,148 - [Epoch  68 / 200] bpr_loss: 0.0367 cl_loss: 3.3264 reg_loss: 0.0193 
+2026-01-04 23:11:14,160 - Epoch  68 Test set [recall@5: 0.7953 recall@10: 0.8835 recall@20: 0.9389 ] Test set [ndcg@5: 0.7090 ndcg@10: 0.7420 ndcg@20: 0.7586 ] Test set [hr@5: 0.8680 hr@10: 0.9260 hr@20: 0.9617 ] 
+2026-01-04 23:11:14,161 - Validation score increased. Copying the best model ...
+2026-01-04 23:11:34,848 - [Epoch  69 / 200] bpr_loss: 0.0367 cl_loss: 3.3240 reg_loss: 0.0193 
+2026-01-04 23:11:36,912 - Epoch  69 Test set [recall@5: 0.7934 recall@10: 0.8834 recall@20: 0.9385 ] Test set [ndcg@5: 0.7051 ndcg@10: 0.7391 ndcg@20: 0.7556 ] Test set [hr@5: 0.8671 hr@10: 0.9260 hr@20: 0.9616 ] 
+2026-01-04 23:11:36,912 - Early stop counter: 1 out of 10
+2026-01-04 23:11:57,656 - [Epoch  70 / 200] bpr_loss: 0.0375 cl_loss: 3.3233 reg_loss: 0.0194 
+2026-01-04 23:11:59,718 - Epoch  70 Test set [recall@5: 0.7950 recall@10: 0.8827 recall@20: 0.9393 ] Test set [ndcg@5: 0.7050 ndcg@10: 0.7378 ndcg@20: 0.7549 ] Test set [hr@5: 0.8683 hr@10: 0.9264 hr@20: 0.9621 ] 
+2026-01-04 23:11:59,718 - Early stop counter: 2 out of 10
+2026-01-04 23:12:20,529 - [Epoch  71 / 200] bpr_loss: 0.0365 cl_loss: 3.3223 reg_loss: 0.0194 
+2026-01-04 23:12:22,463 - Epoch  71 Test set [recall@5: 0.7936 recall@10: 0.8837 recall@20: 0.9394 ] Test set [ndcg@5: 0.7031 ndcg@10: 0.7367 ndcg@20: 0.7536 ] Test set [hr@5: 0.8660 hr@10: 0.9265 hr@20: 0.9619 ] 
+2026-01-04 23:12:22,463 - Early stop counter: 3 out of 10
+2026-01-04 23:12:43,173 - [Epoch  72 / 200] bpr_loss: 0.0368 cl_loss: 3.3200 reg_loss: 0.0195 
+2026-01-04 23:12:45,177 - Epoch  72 Test set [recall@5: 0.7949 recall@10: 0.8830 recall@20: 0.9398 ] Test set [ndcg@5: 0.7053 ndcg@10: 0.7384 ndcg@20: 0.7555 ] Test set [hr@5: 0.8673 hr@10: 0.9257 hr@20: 0.9622 ] 
+2026-01-04 23:12:45,178 - Early stop counter: 4 out of 10
+2026-01-04 23:13:05,887 - [Epoch  73 / 200] bpr_loss: 0.0362 cl_loss: 3.3179 reg_loss: 0.0196 
+2026-01-04 23:13:08,006 - Epoch  73 Test set [recall@5: 0.7963 recall@10: 0.8846 recall@20: 0.9397 ] Test set [ndcg@5: 0.7101 ndcg@10: 0.7431 ndcg@20: 0.7596 ] Test set [hr@5: 0.8681 hr@10: 0.9266 hr@20: 0.9624 ] 
+2026-01-04 23:13:08,008 - Validation score increased. Copying the best model ...
+2026-01-04 23:13:28,990 - [Epoch  74 / 200] bpr_loss: 0.0363 cl_loss: 3.3185 reg_loss: 0.0196 
+2026-01-04 23:13:30,941 - Epoch  74 Test set [recall@5: 0.7951 recall@10: 0.8848 recall@20: 0.9394 ] Test set [ndcg@5: 0.7057 ndcg@10: 0.7391 ndcg@20: 0.7555 ] Test set [hr@5: 0.8668 hr@10: 0.9261 hr@20: 0.9619 ] 
+2026-01-04 23:13:30,942 - Early stop counter: 1 out of 10
+2026-01-04 23:13:51,875 - [Epoch  75 / 200] bpr_loss: 0.0359 cl_loss: 3.3196 reg_loss: 0.0197 
+2026-01-04 23:13:54,295 - Epoch  75 Test set [recall@5: 0.7970 recall@10: 0.8868 recall@20: 0.9398 ] Test set [ndcg@5: 0.7096 ndcg@10: 0.7432 ndcg@20: 0.7591 ] Test set [hr@5: 0.8700 hr@10: 0.9287 hr@20: 0.9624 ] 
+2026-01-04 23:13:54,296 - Validation score increased. Copying the best model ...
+2026-01-04 23:14:15,212 - [Epoch  76 / 200] bpr_loss: 0.0358 cl_loss: 3.3149 reg_loss: 0.0197 
+2026-01-04 23:14:17,464 - Epoch  76 Test set [recall@5: 0.7970 recall@10: 0.8850 recall@20: 0.9395 ] Test set [ndcg@5: 0.7122 ndcg@10: 0.7452 ndcg@20: 0.7616 ] Test set [hr@5: 0.8688 hr@10: 0.9270 hr@20: 0.9620 ] 
+2026-01-04 23:14:17,464 - Early stop counter: 1 out of 10
+2026-01-04 23:14:38,285 - [Epoch  77 / 200] bpr_loss: 0.0351 cl_loss: 3.3132 reg_loss: 0.0198 
+2026-01-04 23:14:40,398 - Epoch  77 Test set [recall@5: 0.7938 recall@10: 0.8852 recall@20: 0.9402 ] Test set [ndcg@5: 0.7068 ndcg@10: 0.7412 ndcg@20: 0.7578 ] Test set [hr@5: 0.8671 hr@10: 0.9269 hr@20: 0.9626 ] 
+2026-01-04 23:14:40,399 - Early stop counter: 2 out of 10
+2026-01-04 23:15:01,232 - [Epoch  78 / 200] bpr_loss: 0.0357 cl_loss: 3.3135 reg_loss: 0.0198 
+2026-01-04 23:15:03,382 - Epoch  78 Test set [recall@5: 0.7955 recall@10: 0.8871 recall@20: 0.9411 ] Test set [ndcg@5: 0.7067 ndcg@10: 0.7411 ndcg@20: 0.7574 ] Test set [hr@5: 0.8685 hr@10: 0.9291 hr@20: 0.9634 ] 
+2026-01-04 23:15:03,382 - Early stop counter: 3 out of 10
+2026-01-04 23:15:24,071 - [Epoch  79 / 200] bpr_loss: 0.0352 cl_loss: 3.3129 reg_loss: 0.0198 
+2026-01-04 23:15:26,149 - Epoch  79 Test set [recall@5: 0.7983 recall@10: 0.8852 recall@20: 0.9406 ] Test set [ndcg@5: 0.7119 ndcg@10: 0.7444 ndcg@20: 0.7610 ] Test set [hr@5: 0.8701 hr@10: 0.9272 hr@20: 0.9631 ] 
+2026-01-04 23:15:26,150 - Validation score increased. Copying the best model ...
+2026-01-04 23:15:46,827 - [Epoch  80 / 200] bpr_loss: 0.0349 cl_loss: 3.3103 reg_loss: 0.0199 
+2026-01-04 23:15:48,927 - Epoch  80 Test set [recall@5: 0.7982 recall@10: 0.8866 recall@20: 0.9402 ] Test set [ndcg@5: 0.7122 ndcg@10: 0.7452 ndcg@20: 0.7614 ] Test set [hr@5: 0.8696 hr@10: 0.9283 hr@20: 0.9622 ] 
+2026-01-04 23:15:48,928 - Early stop counter: 1 out of 10
+2026-01-04 23:16:09,697 - [Epoch  81 / 200] bpr_loss: 0.0352 cl_loss: 3.3113 reg_loss: 0.0199 
+2026-01-04 23:16:11,722 - Epoch  81 Test set [recall@5: 0.7959 recall@10: 0.8845 recall@20: 0.9403 ] Test set [ndcg@5: 0.7059 ndcg@10: 0.7390 ndcg@20: 0.7558 ] Test set [hr@5: 0.8691 hr@10: 0.9262 hr@20: 0.9626 ] 
+2026-01-04 23:16:11,722 - Early stop counter: 2 out of 10
+2026-01-04 23:16:32,493 - [Epoch  82 / 200] bpr_loss: 0.0350 cl_loss: 3.3115 reg_loss: 0.0200 
+2026-01-04 23:16:34,454 - Epoch  82 Test set [recall@5: 0.7974 recall@10: 0.8855 recall@20: 0.9402 ] Test set [ndcg@5: 0.7109 ndcg@10: 0.7440 ndcg@20: 0.7604 ] Test set [hr@5: 0.8698 hr@10: 0.9266 hr@20: 0.9622 ] 
+2026-01-04 23:16:34,454 - Early stop counter: 3 out of 10
+2026-01-04 23:16:55,200 - [Epoch  83 / 200] bpr_loss: 0.0353 cl_loss: 3.3069 reg_loss: 0.0200 
+2026-01-04 23:16:57,289 - Epoch  83 Test set [recall@5: 0.7950 recall@10: 0.8846 recall@20: 0.9410 ] Test set [ndcg@5: 0.7119 ndcg@10: 0.7456 ndcg@20: 0.7626 ] Test set [hr@5: 0.8685 hr@10: 0.9264 hr@20: 0.9629 ] 
+2026-01-04 23:16:57,289 - Early stop counter: 4 out of 10
+2026-01-04 23:17:18,064 - [Epoch  84 / 200] bpr_loss: 0.0345 cl_loss: 3.3091 reg_loss: 0.0200 
+2026-01-04 23:17:20,180 - Epoch  84 Test set [recall@5: 0.7950 recall@10: 0.8859 recall@20: 0.9397 ] Test set [ndcg@5: 0.7067 ndcg@10: 0.7407 ndcg@20: 0.7569 ] Test set [hr@5: 0.8683 hr@10: 0.9273 hr@20: 0.9623 ] 
+2026-01-04 23:17:20,180 - Early stop counter: 5 out of 10
+2026-01-04 23:17:40,978 - [Epoch  85 / 200] bpr_loss: 0.0345 cl_loss: 3.3049 reg_loss: 0.0201 
+2026-01-04 23:17:43,062 - Epoch  85 Test set [recall@5: 0.7953 recall@10: 0.8844 recall@20: 0.9407 ] Test set [ndcg@5: 0.7114 ndcg@10: 0.7448 ndcg@20: 0.7617 ] Test set [hr@5: 0.8677 hr@10: 0.9269 hr@20: 0.9631 ] 
+2026-01-04 23:17:43,063 - Early stop counter: 6 out of 10
+2026-01-04 23:18:03,906 - [Epoch  86 / 200] bpr_loss: 0.0345 cl_loss: 3.3058 reg_loss: 0.0201 
+2026-01-04 23:18:05,958 - Epoch  86 Test set [recall@5: 0.7966 recall@10: 0.8857 recall@20: 0.9406 ] Test set [ndcg@5: 0.7105 ndcg@10: 0.7438 ndcg@20: 0.7603 ] Test set [hr@5: 0.8677 hr@10: 0.9273 hr@20: 0.9629 ] 
+2026-01-04 23:18:05,958 - Early stop counter: 7 out of 10
+2026-01-04 23:18:26,679 - [Epoch  87 / 200] bpr_loss: 0.0348 cl_loss: 3.3065 reg_loss: 0.0201 
+2026-01-04 23:18:28,684 - Epoch  87 Test set [recall@5: 0.7964 recall@10: 0.8852 recall@20: 0.9401 ] Test set [ndcg@5: 0.7096 ndcg@10: 0.7429 ndcg@20: 0.7594 ] Test set [hr@5: 0.8683 hr@10: 0.9266 hr@20: 0.9624 ] 
+2026-01-04 23:18:28,684 - Early stop counter: 8 out of 10
+2026-01-04 23:18:49,341 - [Epoch  88 / 200] bpr_loss: 0.0348 cl_loss: 3.3036 reg_loss: 0.0202 
+2026-01-04 23:18:51,387 - Epoch  88 Test set [recall@5: 0.7954 recall@10: 0.8858 recall@20: 0.9410 ] Test set [ndcg@5: 0.7107 ndcg@10: 0.7446 ndcg@20: 0.7611 ] Test set [hr@5: 0.8679 hr@10: 0.9274 hr@20: 0.9628 ] 
+2026-01-04 23:18:51,387 - Early stop counter: 9 out of 10
+2026-01-04 23:19:12,163 - [Epoch  89 / 200] bpr_loss: 0.0346 cl_loss: 3.3059 reg_loss: 0.0202 
+2026-01-04 23:19:14,212 - Epoch  89 Test set [recall@5: 0.7957 recall@10: 0.8874 recall@20: 0.9416 ] Test set [ndcg@5: 0.7068 ndcg@10: 0.7410 ndcg@20: 0.7573 ] Test set [hr@5: 0.8678 hr@10: 0.9283 hr@20: 0.9635 ] 
+2026-01-04 23:19:14,212 - Early stop counter: 10 out of 10
+2026-01-04 23:19:14,212 - Best Epoch 79
+2026-01-04 23:19:16,555 - Test set [recall@5: 0.7983 recall@10: 0.8852 recall@20: 0.9406 ] Test set [ndcg@5: 0.7119 ndcg@10: 0.7444 ndcg@20: 0.7610 ] Test set [hr@5: 0.8701 hr@10: 0.9272 hr@20: 0.9631 ] 
+2026-01-04 23:19:18,813 - Test set [recall@5: 0.7983 recall@10: 0.8852 recall@20: 0.9406 ] Test set [ndcg@5: 0.7119 ndcg@10: 0.7444 ndcg@20: 0.7610 ] Test set [hr@5: 0.8701 hr@10: 0.9272 hr@20: 0.9631 ] 

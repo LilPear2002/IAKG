@@ -21,7 +21,7 @@ test:
 
 data:
   type: kg                 # Data type: kg (knowledge graph)
-  name: mooc              # Dataset name: mooc, mooper, coco
+  name: mooper              # Dataset name: mooc, mooper, coco
 
 # Model architecture settings
 model:
@@ -40,8 +40,6 @@ model:
   # Loss weights
   reg_weight: 1.0e-2     # L2 regularization weight
   cl_weight: 0.01        # Contrastive learning loss weight
-  student_weight: 0.1    # Student distillation loss weight
-  teacher_weight: 0.1    # Teacher supervision loss weight
   
   # Temperature
   temperature: 0.2       # Temperature for contrastive learning
