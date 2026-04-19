@@ -10,50 +10,28 @@ from models.loss_utils import cal_bpr_loss, reg_pick_embeds
 
 
 class IntentGuidedDenoiser(nn.Module):
-    """意图引导的去噪模块
-    
-    核心思想：用户意图决定哪些KG边是有用的
-    边的重要性 = 边语义（头+关系+尾）与用户意图的相关性
-    """
 
     def __init__(self, embedding_size):
         super(IntentGuidedDenoiser, self).__init__()
         self.embedding_size = embedding_size
-        
-        # 边语义投影层：融合头实体、关系、尾实体
         self.edge_proj = nn.Linear(3 * embedding_size, embedding_size)
-        
-        # 可学习温度参数，控制权重分布的锐度
         self.temperature = nn.Parameter(torch.tensor(1.0))
 
     def forward(self, head_emb, rel_emb, tail_emb, user_intent_emb):
-        """
-        Args:
-            head_emb: [n_edges, emb_size] 头实体嵌入
-            rel_emb: [n_edges, emb_size] 关系嵌入
-            tail_emb: [n_edges, emb_size] 尾实体嵌入  
-            user_intent_emb: [1, emb_size] 或 [n_intent, emb_size] 意图原型
-        Returns:
-            edge_weight: [n_edges] 边权重
-        """
         if user_intent_emb.dim() == 1:
             user_intent_emb = user_intent_emb.unsqueeze(0)
 
-        # 边语义表示：融合头实体、关系、尾实体
         edge_semantic = self.edge_proj(torch.cat([head_emb, rel_emb, tail_emb], dim=-1))  # [n_edges, emb_size]
-        
-        # 计算边与意图原型的相关性
+
         intent_sim = torch.matmul(edge_semantic, user_intent_emb.T)  # [n_edges, n_intent]
         intent_sim = intent_sim / (self.temperature.abs() + 0.1)  # 可学习温度
-        
-        # 取与最相关意图的相似度作为边权重
+
         edge_weight = torch.sigmoid(intent_sim.max(dim=-1)[0])  # [n_edges]
         
         return edge_weight
 
 
 class RGAT(nn.Module):
-    """Relational Graph Attention Network for KG propagation"""
 
     def __init__(self, embedding_size, n_layers=2, mess_dropout_rate=0.2):
         super(RGAT, self).__init__()
@@ -73,13 +51,11 @@ class RGAT(nn.Module):
         tail_emb = entity_emb[tail]
         rel_emb = relation_emb[edge_type]
 
-        # Relation-aware attention
         a_input = torch.cat([head_emb, tail_emb], dim=-1)
         e_input = torch.multiply(self.fc(a_input), rel_emb).sum(-1)
         attn_score = self.leakyrelu(e_input)
         attn_score = scatter_softmax(attn_score, head, dim=0, dim_size=entity_emb.shape[0])
 
-        # Apply edge weights from denoiser
         if edge_weight is not None:
             attn_score = attn_score * edge_weight.view(-1)
 
@@ -104,7 +80,6 @@ class RGAT(nn.Module):
 
 
 class IACD(nn.Module):
-    """Intent-Aware Collaborative Denoising model"""
 
     def __init__(self, data_handler):
         super(IACD, self).__init__()
@@ -153,7 +128,6 @@ class IACD(nn.Module):
         self.logger.info("IACD initialized")
 
     def _get_norm_adj_mat(self, ui_mat):
-        """Build normalized adjacency matrix for LightGCN"""
         A = sp.dok_matrix(
             (self.n_users + self.n_items, self.n_users + self.n_items), dtype=np.float32
         )
@@ -228,17 +202,14 @@ class IACD(nn.Module):
     def forward(self, users_batch):
         # LightGCN for collaborative filtering
         user_struc_emb_all, item_struc_emb_all = self.lightgcn_forward(self.ui_graph)
-        
         user_struc_batch = user_struc_emb_all[users_batch]
         
         # Intent-aware user representation
         user_intent_attn = torch.softmax(user_struc_batch @ self.user_intent, dim=1)  # [batch, intent_size]
         user_individual_intent = user_intent_attn @ self.user_intent.T
-        
-        # 融合用户结构表示和意图表示
+
         final_user_emb = user_struc_batch + user_individual_intent
 
-        # 使用意图原型计算 kg_emb（与评估阶段保持一致）
         head_emb = self.entity_embed[self.edge_index[0]]
         tail_emb = self.entity_embed[self.edge_index[1]]
         rel_emb = self.relation_embed[self.edge_type]
@@ -263,14 +234,12 @@ class IACD(nn.Module):
             kg_emb_list.append(kg_emb[:self.n_items])
         
         kg_emb_stack = torch.stack(kg_emb_list, dim=0)  # [intent_size, n_items, emb_size]
-        
-        # 按用户意图分布加权合成 item embedding
+
         # user_intent_attn: [batch, intent_size]
         # kg_emb_stack: [intent_size, n_items, emb_size]
         batch_item_kg_emb = torch.einsum('uk,kid->uid', user_intent_attn, kg_emb_stack)  # [batch, n_items, emb_size]
         final_item_emb_batch = item_struc_emb_all.unsqueeze(0) + batch_item_kg_emb  # [batch, n_items, emb_size]
 
-        # 对比学习的两个视图（使用平均边权重 + dropout 扰动）
         avg_edge_weight = torch.stack(edge_weight_list, dim=0).mean(dim=0)
         
         kg_emb_view1 = self.kg_gnn(
@@ -292,7 +261,6 @@ class IACD(nn.Module):
 
         final_user_emb, final_item_emb_batch, kg_emb_view1, kg_emb_view2 = self.forward(users)
 
-        # 获取正负样本的 item embedding（每个用户有自己的 item embedding）
         batch_idx = torch.arange(batch_size, device=users.device)
         pos_item_emb = final_item_emb_batch[batch_idx, pos_items]
         neg_item_emb = final_item_emb_batch[batch_idx, neg_items]
@@ -330,15 +298,12 @@ class IACD(nn.Module):
         return torch.matmul(u_emb, i_emb.t())
 
     def full_predict_eval(self):
-        """修正后的评估函数：返回用于个性化合成的组件"""
         user_struc_emb_all, item_struc_emb_all = self.lightgcn_forward(self.ui_graph)
-        
-        # 1. 计算每个用户的意图权重分布
+
         user_intent_attn = torch.softmax(user_struc_emb_all @ self.user_intent, dim=1)  # [n_users, intent_size]
         user_individual_intent = user_intent_attn @ self.user_intent.T
         final_user_emb = user_struc_emb_all + user_individual_intent
-        
-        # 2. 预计算每个意图下的商品嵌入栈
+
         head_emb = self.entity_embed[self.edge_index[0]]
         tail_emb = self.entity_embed[self.edge_index[1]]
         rel_emb = self.relation_embed[self.edge_type]
@@ -349,14 +314,11 @@ class IACD(nn.Module):
             
             for proto in intent_prototypes:
                 proto = proto.unsqueeze(0)
-                # 计算该意图下的边权重
                 edge_weight = self.intent_denoiser(head_emb, rel_emb, tail_emb, proto)
-                # 传播得到该意图下的商品表示
                 kg_emb = self.kg_gnn(self.entity_embed, self.relation_embed, self.edge_index,
                                      self.edge_type, edge_weight=edge_weight, mess_dropout=False)
                 kg_emb_list.append(kg_emb[:self.n_items])
             
             kg_emb_stack = torch.stack(kg_emb_list, dim=0)  # [intent_size, n_items, emb_size]
-        
-        # 返回四个核心组件，用于在 eval 阶段进行 einsum 计算
+
         return final_user_emb, item_struc_emb_all, kg_emb_stack, user_intent_attn
