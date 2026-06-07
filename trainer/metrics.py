@@ -87,7 +87,7 @@ class Metric(object):
     def eval_at_one_forward(self, model, test_dataloader):
         """Evaluate model with single forward pass (efficient for GNN models)
         
-        支持 IACD 的个性化评分：每个用户根据自己的意图分布动态合成 item embedding
+        支持 IAKG 的个性化评分：每个用户根据自己的意图分布动态合成 item embedding
         """
         result = {}
         for metric in self.metrics:
@@ -102,7 +102,7 @@ class Metric(object):
         with torch.no_grad():
             gen_output = model.generate()
             
-            # 检查是否是 IACD 的四元组返回（个性化评分）
+            # 检查是否是 IAKG 的四元组返回（个性化评分）
             if isinstance(gen_output, tuple) and len(gen_output) == 4:
                 user_emb, item_struc_emb, kg_emb_stack, user_intent_attn = gen_output
                 use_personalized = True
@@ -123,7 +123,7 @@ class Metric(object):
             
             with torch.no_grad():
                 if use_personalized:
-                    # IACD 个性化评分
+                    # IAKG 个性化评分
                     u_emb_batch = user_emb[batch_u]  # [B, D]
                     attn_batch = user_intent_attn[batch_u]  # [B, K]
                     
@@ -176,5 +176,5 @@ class Metric(object):
         if 'eval_at_one_forward' in configs['test'] and configs['test']['eval_at_one_forward']:
             return self.eval_at_one_forward(model, test_dataloader)
         
-        # Standard evaluation (not used for IACD)
+        # Standard evaluation (not used for IAKG)
         raise NotImplementedError("Standard eval not implemented. Use eval_at_one_forward=true in config.")

@@ -2,7 +2,7 @@ from config.configurator import configs
 from trainer.trainer import init_seed, Trainer
 from trainer.logger import Logger
 from data_utils.data_handler_kg import DataHandlerKG
-from models.iacd import IACD
+from models.iakg import IAKG
 
 
 def main():
@@ -15,7 +15,7 @@ def main():
     data_handler.load_data()
 
     # Third Step: Create model
-    model = IACD(data_handler).to(configs['device'])
+    model = IAKG(data_handler).to(configs['device'])
 
     # Fourth Step: Create logger
     logger = Logger()

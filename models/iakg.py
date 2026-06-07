@@ -9,10 +9,10 @@ from config.configurator import configs
 from models.loss_utils import cal_bpr_loss, reg_pick_embeds
 
 
-class IntentGuidedDenoiser(nn.Module):
+class IntentGuidedReweighter(nn.Module):
 
     def __init__(self, embedding_size):
-        super(IntentGuidedDenoiser, self).__init__()
+        super(IntentGuidedReweighter, self).__init__()
         self.embedding_size = embedding_size
         self.edge_proj = nn.Linear(3 * embedding_size, embedding_size)
         self.temperature = nn.Parameter(torch.tensor(1.0))
@@ -79,10 +79,10 @@ class RGAT(nn.Module):
         return entity_res_emb
 
 
-class IACD(nn.Module):
+class IAKG(nn.Module):
 
     def __init__(self, data_handler):
-        super(IACD, self).__init__()
+        super(IAKG, self).__init__()
 
         self.logger = getLogger()
 
@@ -122,10 +122,10 @@ class IACD(nn.Module):
         nn.init.xavier_uniform_(self.user_intent)
 
         # Initialize modules
-        self.intent_denoiser = IntentGuidedDenoiser(self.embedding_size)
+        self.intent_reweighter = IntentGuidedReweighter(self.embedding_size)
         self.kg_gnn = RGAT(self.embedding_size, self.kg_layer_num, mess_dropout_rate=0.2)
 
-        self.logger.info("IACD initialized")
+        self.logger.info("IAKG initialized")
 
     def _get_norm_adj_mat(self, ui_mat):
         A = sp.dok_matrix(
@@ -220,7 +220,7 @@ class IACD(nn.Module):
         
         for proto in intent_prototypes:
             proto = proto.unsqueeze(0)
-            edge_weight = self.intent_denoiser(head_emb, rel_emb, tail_emb, proto)
+            edge_weight = self.intent_reweighter(head_emb, rel_emb, tail_emb, proto)
             edge_weight_list.append(edge_weight)
             
             kg_emb = self.kg_gnn(
@@ -314,7 +314,7 @@ class IACD(nn.Module):
             
             for proto in intent_prototypes:
                 proto = proto.unsqueeze(0)
-                edge_weight = self.intent_denoiser(head_emb, rel_emb, tail_emb, proto)
+                edge_weight = self.intent_reweighter(head_emb, rel_emb, tail_emb, proto)
                 kg_emb = self.kg_gnn(self.entity_embed, self.relation_embed, self.edge_index,
                                      self.edge_type, edge_weight=edge_weight, mess_dropout=False)
                 kg_emb_list.append(kg_emb[:self.n_items])

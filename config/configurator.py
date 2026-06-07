@@ -3,7 +3,7 @@ import yaml
 import argparse
 
 def parse_configure():
-    parser = argparse.ArgumentParser(description='IACD')
+    parser = argparse.ArgumentParser(description='IAKG')
     parser.add_argument('--model', type=str, help='Model name')
     parser.add_argument('--dataset', type=str, default=None, help='Dataset name')
     parser.add_argument('--device', type=str, default='cuda', help='cpu or cuda')

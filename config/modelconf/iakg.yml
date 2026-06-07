@@ -25,7 +25,7 @@ data:
 
 # Model architecture settings
 model:
-  name: iacd              # Model name
+  name: iakg              # Model name
   
   # Embedding dimensions
   embedding_size: 64      # Dimension of user/item/entity embeddings

@@ -1,97 +1,117 @@
-# IACD: Intent-Aware Collaborative Denoising for Knowledge Graph-Enhanced Course Recommendation
+# IAKG: Intent-Aware Knowledge Graph-enhanced Course Recommendation
 
-Official PyTorch implementation of **IACD** (Intent-Aware Collaborative Denoising), a novel knowledge graph-enhanced recommendation model with collaborative knowledge distillation.This implementation is built upon the [SSLRec](https://github.com/HKUDS/SSLRec) framework. We thank the authors for their excellent work.
+This repository contains the PyTorch implementation of **IAKG**, an intent-aware knowledge graph enhanced course recommendation model built on top of the SSLRec framework.
 
-## 🔮 Overview
+The current code focuses on **intent-driven personalization** rather than a separate denoising or teacher-student distillation pipeline. In this implementation, user intent prototypes are used to reweight KG edges and to mix multiple intent-specific KG views during recommendation.
 
-IACD addresses the challenge of noisy knowledge graph edges in recommendation systems through:
-- **Intent-Aware Denoising**: User intent-guided edge weight learning
-- **Collaborative Knowledge Distillation**: Student-teacher framework for KG denoising
-- **Relational Graph Attention**: RGAT-based knowledge graph propagation
-- **Contrastive Learning**: Multi-view self-supervised learning for enhanced representations
+## Overview
 
-## 📝 Environment
+IAKG combines three signals:
 
-You can run the following commands to create a conda environment:
+- **Collaborative filtering structure**: LightGCN is used to model user-item interaction patterns.
+- **Intent-aware personalization**: a small set of learnable intent prototypes captures coarse user preference modes.
+- **Knowledge graph enhancement**: an RGAT-style encoder propagates information over the KG, with edge weights guided by intent prototypes.
 
-```
-conda create -n iacd python=3.10 -y
-conda activate iacd
+The final recommendation score is built from:
+
+- a structural user-item representation from the interaction graph
+- an intent-conditioned KG item representation
+
+## Main Idea
+
+For each intent prototype:
+
+1. The model computes an intent-aware score for every KG edge.
+2. The KG encoder propagates entity embeddings with those edge weights.
+3. The resulting item embeddings are treated as one intent-specific KG view.
+
+At inference time, a user's intent attention weights are used to combine these intent-specific KG views, producing a personalized item representation.
+
+## Environment
+
+```bash
+conda create -n iakg python=3.10 -y
+conda activate iakg
 pip install numpy==1.26.4 scipy==1.11.4
 pip install torch==2.0.1+cu118 -f https://download.pytorch.org/whl/torch_stable.html
 pip install torch-scatter -f https://data.pyg.org/whl/torch-2.0.1+cu118.html
 pip install PyYAML tqdm
 ```
 
-😉 The codes are developed based on the [SSLRec](https://github.com/HKUDS/SSLRec) framework.
+## Code Structure
 
-## 👉 Code Structure
-
-```
+```text
 .
-├── config/                 # Configuration files
-│   ├── configurator.py    # Configuration parser
-│   └── modelconf/         # Model-specific configs
-│       └── iacd.yml       # IACD hyperparameters
-├── data_utils/            # Data loading and preprocessing
-│   ├── data_handler_kg.py # KG data handler
-│   └── datasets_kg.py     # PyTorch dataset classes
-├── datasets/              # Dataset directory
-│   └── kg/               # Knowledge graph datasets
-│       └── mooccube_kg/  # MOOCCube dataset
-|       └── coco_kg/  # COCO dataset
-|       └── mooper_kg/  # MOOPer dataset
-├── models/                # Model implementations
-│   ├── iacd.py           # IACD model
-│   └── loss_utils.py     # Loss functions
-│   
-├── trainer/               # Training utilities
-│   ├── trainer.py        # Training loop
-│   ├── metrics.py        # Evaluation metrics
-│   └── logger.py         # Logging utilities
-└── main.py               # Main entry point
+|-- config/
+|   |-- configurator.py
+|   `-- modelconf/
+|       `-- iakg.yml
+|-- data_utils/
+|   |-- data_handler_kg.py
+|   `-- datasets_kg.py
+|-- datasets/
+|   `-- kg/
+|       |-- mooccube_kg/
+|       |-- mooper_kg/
+|       `-- coco_kg/
+|-- models/
+|   |-- iakg.py
+|   `-- loss_utils.py
+|-- trainer/
+|   |-- trainer.py
+|   |-- metrics.py
+|   `-- logger.py
+`-- main.py
 ```
 
-## 📚 Datasets Statistics
+## Datasets
+
+The repository includes three knowledge graph enhanced course recommendation datasets:
 
 | Statistics | MOOCCube | MOOPer | COCO |
 |------------|----------|--------|------|
-| # Users | 34,917 | 28,702 | 24,036 |
-| # Courses | 698 | 233 | 8,196 |
-| # Interactions | 273,397 | 267,849 | 374,065 |
-| # Density | 98.88% | 95.99% | 99.81% |
-| **Knowledge Graph** | | | |
-| # Entities | 239,440 | 10,184 | 11,237 |
-| # Relations | 7 | 8 | 5 |
-| # Triplets | 739,344 | 26,315 | 104,983 |
+| Users | 34,917 | 28,702 | 24,036 |
+| Courses | 698 | 233 | 8,196 |
+| Interactions | 273,397 | 267,849 | 374,065 |
+| Density | 98.88% | 95.99% | 99.81% |
+| Entities | 239,440 | 10,184 | 11,237 |
+| Relations | 7 | 8 | 5 |
+| Triplets | 739,344 | 26,315 | 104,983 |
 
-
-
-## 🚀 How to run the codes
-
-### Training
+## Train
 
 ```bash
-python main.py --model iacd
+python main.py --model iakg
 ```
 
-### Configuration
+You can choose a dataset with:
 
-Modify hyperparameters in `config/modelconf/iacd.yml`:
-```yaml
-model:
-  embedding_size: 64        # Embedding dimension
-  layer_num: 2             # LightGCN layers
-  kg_layer_num: 2          # RGAT layers
-  intent_size: 4          # Number of intent prototypes
-  
-  reg_weight: 1.0e-4       # L2 regularization
-  cl_weight: 0.01          # Contrastive learning weight
-  distill_weight: 0.1      # Student distillation weight
-  teacher_weight: 0.1      # Teacher supervision weight
-  temperature: 0.2         # Contrastive temperature
+```bash
+python main.py --model iakg --dataset mooper
+python main.py --model iakg --dataset mooc
+python main.py --model iakg --dataset coco
 ```
 
-## 🌟 Citation
+## Configuration
 
-If you find this work is helpful to your research, please consider citing our paper and the [SSLRec](https://github.com/HKUDS/SSLRec) framework.
+Edit `config/modelconf/iakg.yml` to adjust hyperparameters.
+
+Key settings include:
+
+- `embedding_size`
+- `layer_num`
+- `kg_layer_num`
+- `intent_size`
+- `reg_weight`
+- `cl_weight`
+- `temperature`
+
+## Implementation Notes
+
+- The current implementation does **not** include teacher-student distillation.
+- The intent module is used to build personalized KG views and to weight item representations.
+- If you want to emphasize the method in a paper, describing it as **intent-driven personalization with knowledge-graph reweighting** is more accurate than centering the narrative on denoising.
+
+## Citation
+
+If this work is helpful, please cite the paper and the SSLRec framework.
