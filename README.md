@@ -2,7 +2,7 @@
 
 This repository contains the PyTorch implementation of **IAKG**, an intent-aware knowledge graph enhanced course recommendation model built on top of the SSLRec framework.
 
-The current code focuses on **intent-driven personalization** rather than a separate denoising or teacher-student distillation pipeline. In this implementation, user intent prototypes are used to reweight KG edges and to mix multiple intent-specific KG views during recommendation.
+The current code focuses on **intent-driven personalization**. In this implementation, user intent prototypes are used to reweight KG edges and to mix multiple intent-specific KG views during recommendation.
 
 ## Overview
 
@@ -105,12 +105,6 @@ Key settings include:
 - `reg_weight`
 - `cl_weight`
 - `temperature`
-
-## Implementation Notes
-
-- The current implementation does **not** include teacher-student distillation.
-- The intent module is used to build personalized KG views and to weight item representations.
-- If you want to emphasize the method in a paper, describing it as **intent-driven personalization with knowledge-graph reweighting** is more accurate than centering the narrative on denoising.
 
 ## Citation
 
